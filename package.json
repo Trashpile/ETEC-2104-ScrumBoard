@@ -1,0 +1,29 @@
+{
+  "name": "sprint1",
+  "version": "1.0.0",
+  "description": "1/19",
+  "main": "Account.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Trashpile/ETEC-2104-ScrumBoard.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Trashpile/ETEC-2104-ScrumBoard/issues"
+  },
+  "homepage": "https://github.com/Trashpile/ETEC-2104-ScrumBoard#readme",
+  "devDependencies": {
+    "mocha": "^8.3.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
