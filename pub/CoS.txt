@@ -1,0 +1,19 @@
+As a user I would like to be able to comment and interact with other people.
+
+COS - Have a textbox at the bottom of each meme that says "Type to leave a comment".
+This box should also have a "Post public comment" button to the right of it.
+
+COS - Have a Like button on comments that are posted by other users.
+
+COS - Have a dislike button on comments that are posted by other users.
+
+COS - Have an edit button to edit your own comments -> Should allow you to edit your own
+comments but no one elses.
+
+COS - Have a reply button that allows you to respond to other commenters on a meme.
+
+COS - Have a reply button on the bottom of other users' comments / replies.
+
+COS - Have a reply button on the bottom of other users' comments / replies.
+
+COS - Have a shuffle button that allows you to sort the comments by date, most liked, most disliked, etc.
