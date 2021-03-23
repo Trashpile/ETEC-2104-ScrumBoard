@@ -58,13 +58,20 @@ app.get("/login", (req,res) => {
     }
 });
 app.get("/trending", (req,res) => {
-    //let M=[
-    //    { name: "alice", status: "online" },
-    //    { name: "bob",   status: "online" },
-    //    { name: "carol", status: "idle" },
-    //    { name: "dave",  status: "do not disturb" }
-    //];
+    
     let M = new mm.MemeManager();
+    //Add some memes!
+    M.mData = 
+    [
+        new mm.Meme(200, "funnymeme"),
+        new mm.Meme(3000, "sadmeme"),
+        new mm.Meme(5, "fatmeme"),
+        new mm.Meme(-1, "catmeme"),
+        new mm.Meme(10, "radmeme"),
+        new mm.Meme(10000, "saddermeme"),
+        new mm.Meme(30, "madmeme")
+    ]
+    M.sortByLike();
     res.render( "templates/trending.ejs",
     { memeManager: M } );
 });

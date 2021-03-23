@@ -4,11 +4,11 @@
 <% include("header"); %>
 
 Top 5 Sad Cats on the web - - -
-<div><%memeManager.spicyMemes[0].name%></div>
+<div><%memeManager.mData[0].name%></div>
 
-<% for(let i=0;i<memeManager.spicyMemes.length;++i) { %>
+<% for(let i=0;i<memeManager.mData.length;++i) { %>
     <div>
-        <%- memeManager.spicyMemes[i].name %> <%= memeManager.spicyMemes[i].likes %>
+        <%- memeManager.mData[i].name %> <%= memeManager.mData[i].likes %>
     </div>
 <% } %>
 <% include("footer"); %>
