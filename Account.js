@@ -71,13 +71,24 @@ class Account
         return this.private;
     }
 
-    setPrivate( isPrivate )
+    setPrivacy( isPrivate )
     {
         // private is a bool
         // true makes account private
         // false makes account public
         this.private = isPrivate;
-        return this.private;
+        if (isPrivate === true)
+        {
+            return this.private;
+        }
+        else if (isPrivate === false)
+        {
+            return !this.private;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
 
