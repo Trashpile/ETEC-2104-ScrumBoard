@@ -14,6 +14,7 @@ class Account
 
     followNewUser( uID, other )
     {
+        // adds this user to other user's follower list
         if (uID === this.id)
         {
             return false;
@@ -39,6 +40,7 @@ class Account
 
     newFollower( uID, other)
     {
+        // add other user to this user's follower list
         if (uID === this.id)
         {
             return false;
@@ -56,6 +58,7 @@ class Account
 
     isFollower( uID, other )
     {
+        // checks if other is a follower of this user
         if (this.followers.has(uID))
         {
             return true;
@@ -68,6 +71,7 @@ class Account
 
     isPrivate()
     {
+        // checks if this user is private
         return this.private;
     }
 
@@ -76,6 +80,7 @@ class Account
         // private is a bool
         // true makes account private
         // false makes account public
+        // sets a user to private or public
         this.private = isPrivate;
         if (isPrivate === true)
         {
