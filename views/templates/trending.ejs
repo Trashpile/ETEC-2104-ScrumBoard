@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset=utf8></head><body>
+<% include("header"); %>
+
+Top 5 Sad Cats on the web - - -
+<div><%memeManager.spicyMemes[0].name%></div>
+
+<% for(let i=0;i<memeManager.spicyMemes.length;++i) { %>
+    <div>
+        <%- memeManager.spicyMemes[i].name %> <%= memeManager.spicyMemes[i].likes %>
+    </div>
+<% } %>
+<% include("footer"); %>
+</body></html>
