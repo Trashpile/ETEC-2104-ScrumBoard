@@ -1,0 +1,17 @@
+{
+  "name": "memedepositorytests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "httpserver.js",
+  "scripts": {
+    "test": ""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "formidable": "^1.2.2"
+  }
+}
