@@ -26,7 +26,6 @@ class AccountManager{
     }
     setAvatar(email, newavatar){
         return this.accounts.get(email).avatar = newavatar;
-    }
 }
 
 exports.AccountManager = AccountManager;
