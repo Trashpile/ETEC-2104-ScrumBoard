@@ -1,25 +1,37 @@
 class Meme
 {
-    constructor()
+    constructor(likes, name)
     {
-        this.likes = 0;
-        this.name = "Unamed Meme";
+        this.likes = likes;
+        this.name = name;
     }
 }
 class MemeManager
 {
     constructor()
     {
-        this.spicyMemes=[];
-        for(let i = 0; i < this.spicyMemes.length; i++)
+        this.mData=[];
+    }
+///Let the most liked meme rise to the top via Bubble sort.  Will refactor to sort by other means with merge sort.
+    sortByLike()
+    {
+        
+        let mData = this.mData;//So we don't have to reference this. each call
+        for(let i = 0; i< mData.length - 1; i++)
         {
-            cat = new Meme();
-            cat.likes = 10-i;
-            cat.name = "Cat meme " + (i + 1);
-            this.spicyMemes.append(cat);
-            console.log(cat);
+            
+            for(let j = 0; j < mData.length - 1; j++)
+            {
+                if(mData[j].likes < mData[j+1].likes)
+                {
+                    let temp = mData[j];
+                    mData[j] = mData[j+1];
+                    mData[j+1] = temp;
+                }
+            }
         }
     }
     
 }
+exports.Meme = Meme;
 exports.MemeManager = MemeManager;
