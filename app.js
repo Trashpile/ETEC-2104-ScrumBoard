@@ -10,15 +10,10 @@ function startServer() {
     
     let app = express();
     app.use(express.static("pub"));
-
     app.get("/", (req,res) => {
         res.redirect("/pub/index.html");
     });
-
-    // app.get("/upload", (req,res) => {
-
-    // });
-
+    
     app.post("/sendimage", (req, res) => {
         console.log("accessed server /sendimage");
         let A = formidable ({

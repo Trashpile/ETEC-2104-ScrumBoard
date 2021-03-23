@@ -1,9 +1,5 @@
 
 $(document).ready ( (data) => {
-    let file;
-    function insert_data(in_file){
-    return file = in_file;
-    }
     console.log("doc ready");
 
     let form = $("#form");
