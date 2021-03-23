@@ -1,15 +1,51 @@
+<!--//"As a user, I would like to give suggestions for the site."
+//CoS- Option to create a suggestion in settings. 
+//CoS- Prompts the user with a questionaire and a text box for them to fill in their suggestions.
+//CoS- Submits their suggestions and their account username into a location moderators can access. 
+//CoS- Moderators can choose to keep the suggestion or to delete it from the location. 
+//CoS- Users have to have a certain number of days they have logged on to submit suggestions. -->
+<!-- Merged with Logan's index.html -->
+
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset = utf8>
-    </head>
-    <body>
-        <ul>
-            <li>Filler</li>
-            <li>Filler</li>
-            <li>Filler</li>
-            <li link="upload.html">Upload</li>
-            <li>Profile</li>
-        </ul>
-    </body>
-</html>
+<head>
+<meta charset=utf8>
+<head>
+<body>
+  <ul>
+    <li>Filler</li>
+    <li>Filler</li>
+    <li>Filler</li>
+    <li link="upload.html">Upload</li>
+    <li>Profile</li>
+  </ul>
+  <p>Welcome to our suggestions page!</p>
+
+  <p>Fill out the form below to suggest ways to improve the website!</p>
+  
+
+  <p>What is the category of your suggestion?</p>
+  <select id=SuggestionType size=1>
+    <option selected name=uploading>Select your suggestion type</option>
+    <option name=experience>Improving Meme Upload Process</option>
+    <option name=experience>Improving User Experience</option>
+    <option name=other>Other</option>
+  </select>
+
+<p>Type your suggestion(s) into the text box.</p>
+<form id="frm1" action="/action_page.php">
+  <textarea id=’aboutMe’ rows=20 cols=200> Enter stuff here</textarea>
+</form>
+
+<input type="button" onclick="myFunction()" value="Submit">
+
+<script>
+function myFunction() {
+  document.getElementById("frm1").submit();
+}
+</script>
+
+</body>
+<!--<script src="foo.js"></script>
+<script src="bar.js"></script>-->
+</html> Miller-Sprint-1
