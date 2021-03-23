@@ -49,7 +49,7 @@ function startServer(){
 function stopServer(srv){
     srv.close();
 }
-
+//
 //if we're being run directly from command line
 if( module  === require.main )
     startServer();
