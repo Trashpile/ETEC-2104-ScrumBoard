@@ -1,19 +1,21 @@
 {
-  "name": "thisonemanth",
+  "name": "ETEC-2104-ScrumBoard",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --exit --recursive --timeout 5000"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
     "formidable": "^1.2.2"
+    "express": "^4.17.1"
   },
   "devDependencies": {
-    "mocha": "^8.3.2"
+    "mocha": "^8.3.0"
   }
 }
+
+//merged by carter with samantha
