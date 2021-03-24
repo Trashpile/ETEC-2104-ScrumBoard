@@ -4,8 +4,12 @@ let express = require("express");
 let AccountManager = require("./AccountManager");
 let MemeManager = require("./MemeManager");
 const session = require("express-session");
+let tagging = require("./tagging");
+
 function startServer(){
     let app = express();
+    
+    let TagPool = new tagging.TagPool("./priv/tagFile.txt");
     
     app.use( express.static( "pub" ) );
 
@@ -18,9 +22,16 @@ function startServer(){
     let memeManager = new MemeManager.MemeManager();
     let accountManager = new AccountManager.AccountManager();
     app.get("/", (req,res) => {
-        res.sendFile("/pub/index.html");
-        
+        res.sendFile("This is the index page. Nothing is here ... for now.");
     });
+    
+    app.get("/home", (req,res) => {
+        if(req.session && req.session.username){
+            res.redirect("home.html");
+        } else {
+            res.send("Not Logged In");
+        }
+    })
 
     app.get("/register", (req,res)=>{
         let uname = req.query["username"];
@@ -70,6 +81,91 @@ function startServer(){
         } else {
             res.send("not logged in");
         }
+    });
+    
+    app.get("/tagaccess", (req,res) => {
+        TagPool.readTagFile(() => {
+            let string = "";
+            let reqType = req.query["reqType"];
+            if (reqType === undefined)
+            {
+                res.status(200).send("Nothing to see here!");
+            }
+            else if (reqType === "OFTags")
+            {
+                for (let i = 0; i < TagPool.getOfficialTags().length; i++)
+                {
+                    string = string + String(TagPool.getOfficialTags()[i].getString());
+                }
+                res.status(200).send(string);
+            }
+            else if (reqType === "UFTags")
+            {
+                for (let i = 0; i < TagPool.getUnofficialTags().length; i++)
+                {
+                    string = string + String(TagPool.getUnofficialTags()[i].getString());
+                }
+                res.status(200).send(string);
+            }
+            else if (reqType === "ITags")
+            {
+                for (let i = 0; i < TagPool.getInternalTags().length; i++)
+                {
+                    string = string + String(TagPool.getInternalTags()[i].getString());
+                }
+                res.status(200).send(string);
+            }
+        });
+    });
+    
+    app.get("/memetags", (req,res) => {
+        TagPool.readTagFile(() => {
+            let memestring = req.query["newMeme"];
+            if (memestring === undefined)
+            {
+                res.status(200).send("Nothing to see here!");
+            }
+            else
+            {
+                let memelist = memestring.split(";");
+                memelist[1] = memelist[1].split(",");
+                if (memelist.length === 2 && memelist[1].length === 5)
+                {
+                    let newMeme = new tagging.Meme(memelist[0], [new tagging.Tag(memelist[1][0], memelist[1][1], memelist[1][2], memelist[1][3], memelist[1][4])], []);
+                    res.status(200).send(newMeme.getName() + " is tagged with: " + newMeme.getExternalTags()[0].getTagENG());
+                }
+                else
+                {
+                    res.status(200).send("That wasn't the format!");
+                }
+            }
+            res.send();
+        });
+    });
+    
+    app.get("/writetags", (req,res) => {
+        TagPool.readTagFile(() => {
+            let tagstring = req.query["newTag"];
+            if (tagstring === undefined)
+            {
+                res.status(200).send("Nothing to see here!");
+            }
+            else
+            {
+                let taglist = tagstring.split(",");
+                if (taglist.length === 5)
+                {
+                let newTag = new tagging.Tag(taglist[0], taglist[1], taglist[2], taglist[3], taglist[4]);
+                TagPool.addUnofficialTag(newTag);
+                TagPool.writeTagFile("./priv/outputTGFile.txt");
+                res.status(200).send("Tag has been written.");
+                }
+                else
+                {
+                res.status(200).send("That wasn't the format!");
+                }
+            }
+        });
     });
 
     let srv = app.listen(2021);
