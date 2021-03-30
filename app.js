@@ -6,6 +6,9 @@ let AccountManager = require("./AccountManager");
 let MemeManager = require("./MemeManager");
 const session = require("express-session");
 let tagging = require("./tagging");
+//Connect, select for results.
+//Need to:  Check if Null before populating
+
 
 function startServer(){
     let app = express();

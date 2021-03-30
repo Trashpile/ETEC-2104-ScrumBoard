@@ -31,6 +31,15 @@
                 "<node_internals>/**"
             ],
             "program": "app.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Database",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "database.js"
         }
     ]
 }
