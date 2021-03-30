@@ -3,7 +3,7 @@
 let express = require("express");
 let fs = require("fs");
 let AccountManager = require("./AccountManager");
-let MemeManager = require("./MemeManager1");
+let MemeManager = require("./MemeManager");
 const session = require("express-session");
 let tagging = require("./tagging");
 
@@ -203,4 +203,3 @@ if( module  === require.main )
 
 exports.startServer = startServer;
 exports.stopServer = stopServer;
-app.listen(2021);
