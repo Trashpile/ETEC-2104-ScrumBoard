@@ -51,7 +51,7 @@ class Meme {
 class TagPool {
     /**
     * This class will store all the information about the various tags used in the meme depository.
-    * The tag information will be stored in a file on the web server, and the TagPool will load it when it is called. From there
+    * The tag information will be stored in a database on the web server, and the TagPool will load it when it is called. From there
     * methods can be called to extract additional information from the tags. Some tags will be official, and some can be added
     * on the fly. The official tagpool can be edited by moderators to include more tags.
     * There is a special set of tags for internal data, which is to indicate content warnings and quarantines.
@@ -62,35 +62,32 @@ class TagPool {
         this.unofficialTags = [];
         this.internalTags = [];
     } 
-    async readTagFile(callback){
-        fs.readFile(this.tagFile, 'utf8' , (err, data) => {
-            if (err) {
-              console.error(err);
-              return err;
-            }
-            data = data.split(";")
-            for (let i = 0; i < data.length; i++)
+    async readTagFile(conn, callback){
+        conn.serialize();
+        conn.all( "select tID, tagContent, tagType from tags",
+        [],         //no parameters
+        (err,rows) => 
+        {
+            if( err )
             {
-                data[i] = data[i].split(",");
+                console.log("select error:",err);
+                return;
             }
-            for (let i = 0; i < data.length; i++)
+            for(let i=0; i<rows.length; i++)
             {
-                for (let j = 0; j < data[i].length; j++)
+                //console.log("row",i,":",rows[i].tagContent);
+                if (rows[i].tagType == 1)
                 {
-                    data[i][j] = data[i][j].split(":");
+                    this.officialTags.push(new Tag(rows[i].tagContent, rows[i].tID, "None", rows[i].tID, 0));
                 }
-            }
-            for (let i = 0; i < data[0].length; i++)
-            {
-                this.officialTags.push(new Tag(data[0][i][0], data[0][i][1], data[0][i][2], data[0][i][3], data[0][i][4]));
-            }
-            for (let i = 0; i < data[1].length; i++)
-            {
-                this.unofficialTags.push(new Tag(data[1][i][0], data[1][i][1], data[1][i][2], data[1][i][3], data[1][i][4]));
-            }
-            for (let i = 0; i < data[2].length; i++)
-            {
-                this.internalTags.push(new Tag(data[2][i][0], data[2][i][1], data[2][i][2], data[2][i][3], data[2][i][4]));
+                else if (rows[i].tagType == 2)
+                {
+                    this.unofficialTags.push(new Tag(rows[i].tagContent, rows[i].tID, "None", rows[i].tID, 0));
+                }
+                else if (rows[i].tagType == 3)
+                {
+                    this.internalTags.push(new Tag(rows[i].tagContent, rows[i].tID, "None", rows[i].tID, 0));
+                }
             }
             callback();
         });

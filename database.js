@@ -19,7 +19,7 @@ const language = {
     Chinese: 6, 
 }
 
-function main()
+function main(reset)
 {
     conn.serialize(); //Says everytime you submit something to database, it'll force it to run sequentially.
     //Reduces performance, useful for tests
@@ -30,9 +30,43 @@ function main()
     //
     try
     {
+        if (reset)
+        {
+            conn.run( `drop table users`,
+            {}, //Initial parameters. Empty for now.
+            (e) => {
+                console.log("error is:",e) //Runs if err, null if not
+            }
+        );
+        conn.run( `drop table tags`,
+            {}, //Initial parameters. Empty for now.
+            (e) => {
+                console.log("error is:",e) //Runs if err, null if not
+            }
+        );
+        conn.run( `drop table memes`,
+            {}, //Initial parameters. Empty for now.
+            (e) => {
+                console.log("error is:",e) //Runs if err, null if not
+            }
+        );
+        conn.run( `drop table memesTagJunction`,
+            {}, //Initial parameters. Empty for now.
+            (e) => {
+                console.log("error is:",e) //Runs if err, null if not
+            }
+        );
+        conn.run( `drop table tagAlias`,
+            {}, //Initial parameters. Empty for now.
+            (e) => {
+                console.log("error is:",e) //Runs if err, null if not
+            }
+        );
+        }
         //...use conn...
+        //Note: foreign keys cannot be tagged as such, but primary keys can.
         conn.run( `create table users(
-                uid integer primary key ,
+                uid integer primary key,
                 name varchar(32),
                 password varchar(32),
                 avatar blob)`,
@@ -41,12 +75,11 @@ function main()
                 console.log("error is:",e) //Runs if err, null if not
             }
         );
-        //Gotta make a junction table from memes to tags.
         conn.run( `create table memes(
-            mid integer primary key ,
+            mid integer primary key,
             name varchar(32),
-            uid integer foreign key,
-            tid integer foreign key
+            uid integer,
+            tid integer,
             avatar blob)`,
         {}, //Initial parameters. Empty for now.
         (e) => {
@@ -54,7 +87,7 @@ function main()
         });
         //In the js, the tagType will be an enum. In the database, it will be an integer.
         conn.run( `create table tags(
-            tID integer primary key ,
+            tID integer primary key,
             tagContent varchar(32),
             tagType integer
             )`,
@@ -63,12 +96,20 @@ function main()
             console.log("error is:",e) //Runs if err, null if not
         }
         );
+        conn.run( `create table memesTagJunction(
+            mID integer,
+            tID integer
+            )`,
+        {}, //Initial parameters. Empty for now.
+        (e) => {
+            console.log("error is:",e) //Runs if err, null if not
+        });
         conn.run( `create table tagAlias(
-            t1ID integer foreign key,
-            t2ID integer foreign key,
+            t1ID integer,
+            t2ID integer,
             t1Lang integer,
             t2Lang integer,
-            primeAlias integer foreign key
+            primeAlias integer
             )`,
         {}, //Initial parameters. Empty for now.
         (e) => {
@@ -82,12 +123,63 @@ function main()
                 console.log("error is:",e) 
             }
         );
-
-
+        //This is mostly just to create the initial file that I had.
+        conn.run( "insert into tags (tagContent, tagType) values ($tagContent, $tagType)",
+            { $tagContent: "Meme", $tagType: tagType.Official }, //Parameters - use the $ sign in .run()
+            (e) => {  
+                console.log("error is:",e) 
+            }
+        );
+        conn.run( "insert into tags (tagContent, tagType) values ($tagContent, $tagType)",
+            { $tagContent: "Frozen", $tagType: tagType.Internal }, //Parameters - use the $ sign in .run()
+            (e) => {  
+                console.log("error is:",e) 
+            }
+        );
+        conn.run( "insert into tags (tagContent, tagType) values ($tagContent, $tagType)",
+            { $tagContent: "Risque", $tagType: tagType.Internal }, //Parameters - use the $ sign in .run()
+            (e) => {  
+                console.log("error is:",e) 
+            }
+        );
+        conn.run( "insert into tags (tagContent, tagType) values ($tagContent, $tagType)",
+            { $tagContent: "Quarantined", $tagType: tagType.Internal }, //Parameters - use the $ sign in .run()
+            (e) => {  
+                console.log("error is:",e) 
+            }
+        );
+        conn.run( "insert into tags (tagContent, tagType) values ($tagContent, $tagType)",
+            { $tagContent: "Contentious", $tagType: tagType.Internal }, //Parameters - use the $ sign in .run()
+            (e) => {  
+                console.log("error is:",e) 
+            }
+        );
+        conn.run( "insert into tags (tagContent, tagType) values ($tagContent, $tagType)",
+            { $tagContent: "No Download", $tagType: tagType.Internal }, //Parameters - use the $ sign in .run()
+            (e) => {  
+                console.log("error is:",e) 
+            }
+        );
+        conn.run( "insert into tags (tagContent, tagType) values ($tagContent, $tagType)",
+            { $tagContent: "tagme", $tagType: tagType.Official }, //Parameters - use the $ sign in .run()
+            (e) => {  
+                console.log("error is:",e) 
+            }
+        );
+        conn.run( "insert into tags (tagContent, tagType) values ($tagContent, $tagType)",
+            { $tagContent: "Crud", $tagType: tagType.Unofficial }, //Parameters - use the $ sign in .run()
+            (e) => {  
+                console.log("error is:",e) 
+            }
+        );
     } 
     finally
     {
         conn.close();
     }
 }
+
+if( module  === require.main)
+    main(true);
+
 exports.recreateDatabase = main;
