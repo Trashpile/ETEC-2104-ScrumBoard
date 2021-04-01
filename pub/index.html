@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <link rel="stylesheet" href="jquery-ui.min.css">
+    <script src="jquery.min.js"></script>
+    <script src="jquery-ui.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var to;
+            $("#send_email").click(function(){     
+                to=$("#email").val();
+                $.get("http://localhost:2021/send",{to:to},function(data){
+                if(data=="sent")
+                {
+                    console.log("sent")
+                }
+        
+        });
+            });
+        });
+        </script>
+</head>
+<body>
+    <div class="form-group" style="width: 300px">
+
+        <div>Input Email
+        <input id="email" class="form-control">
+        <small class="form-text text-muted"></small>
+        <button id="send_email">Send Email</button>
+    </div>
+</body>
+</html>

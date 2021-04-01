@@ -1,16 +1,28 @@
 {
-  "name": "Sprint_1",
+  "name": "ETEC-2104-ScrumBoard",
   "version": "1.0.0",
   "description": "",
-  "main": "suggestions.js",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jquery": "^3.6.0",
+    "nodemailer": "^6.5.0"
+  },
+  "devDependencies": {
+    "mocha": "^8.3.2"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Trashpile/ETEC-2104-ScrumBoard.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "jquery": "^3.6.0",
-    "mocha": "^8.3.2"
-  }
+  "bugs": {
+    "url": "https://github.com/Trashpile/ETEC-2104-ScrumBoard/issues"
+  },
+  "homepage": "https://github.com/Trashpile/ETEC-2104-ScrumBoard#readme"
 }
