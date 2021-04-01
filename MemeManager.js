@@ -1,14 +1,18 @@
+//Testing comment for debugging
+
 
 class Meme{
-    constructor(/*possible list of tags?*/memeImage, isFavorite, creatorID){
+    constructor(/*possible list of tags?*/memeImage, isFavorite, creatorID, name){
         this.image = memeImage;
         this.favorite = isFavorite;
         this.creator = creatorID;
+        this.likes = 0;
+        this.name = name;
     }
 }
 class MemeManager{
     constructor(){
-        this.memeData = new Map();
+        this.memeData = [];
     }
     addMeme(memeImageTemp,creatorID)
     {
@@ -23,14 +27,14 @@ class MemeManager{
         this.memeData.get(memeImageTemp).isFavorite = true;
     }
     getMeme(index){
-        const memeArray = Array.from(this);
+        const memeArray = Array.from(this.memeData);
         if(!(memeArray[index])){
-            return NULL;
+            return null;
         }
         return memeArray[index].memeImage;
     }
     getFavorite(index){
-        const memeArray = Array.from(this);
+        const memeArray = Array.from(this.memeData);
         if(!(memeArray[index])){
             return null;
         }
@@ -43,5 +47,25 @@ class MemeManager{
             return memeArray[index].memeImage;
         }
     }
+    //Sort the meme map by the likes
+    sortByLike()
+    {
+        //Convert into list to sort.
+        let memeData = [];//So we don't have to reference this. each call
+        for(let i = 0; i< memeData.length - 1; i++)
+        {
+            
+            for(let j = 0; j < memeData.length - 1; j++)
+            {
+                if(memeData[j].likes < memeData[j+1].likes)
+                {
+                    let temp = memeData[j];
+                    memeData[j] = memeData[j+1];
+                    memeData[j+1] = temp;
+                }
+            }
+        }
+    }
 }
 exports.MemeManager = MemeManager;
+exports.Meme = Meme;

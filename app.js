@@ -1,10 +1,14 @@
 "use strict";
 
 let express = require("express");
+let fs = require("fs");
 let AccountManager = require("./AccountManager");
 let MemeManager = require("./MemeManager");
 const session = require("express-session");
 let tagging = require("./tagging");
+//Connect, select for results.
+//Need to:  Check if Null before populating
+
 
 function startServer(){
     let app = express();
@@ -166,6 +170,27 @@ function startServer(){
                 }
             }
         });
+    });
+
+    app.get("/trending", (req,res) => {
+    
+        let M = new MemeManager.MemeManager();
+        //Add some memes!
+        //Default image for now
+        let img = fs.readFileSync("avatar.png");
+        M.memeData = 
+        [
+            new MemeManager.Meme(img, true, 1000, "funnymeme"),
+            new MemeManager.Meme(img, true, 1000,"sadmeme"),
+            new MemeManager.Meme(img, true, 1000,"fatmeme"),
+            new MemeManager.Meme(img, true, 1000,"catmeme"),
+            new MemeManager.Meme(img, true, 1000,"radmeme"),
+            new MemeManager.Meme(img, true, 1000,"saddermeme"),
+            new MemeManager.Meme(img, true, 1000,"madmeme")
+        ]
+        M.sortByLike();
+        res.render( "templates/trending.ejs",
+        { memeManager: M } );
     });
 
     let srv = app.listen(2021);
