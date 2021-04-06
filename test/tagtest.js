@@ -2,6 +2,7 @@ let assert = require("assert");
 let http = require("http");
 let app = require("../app");
 let fs = require("fs");
+let db = require("../database.js")
 
 let srv;
 
@@ -35,6 +36,11 @@ let srv;
             done();
         }
     });
+}
+
+function resetDB(done){
+    db.recreateDatabase(true);
+    done();
 }
     
 describe("Tagging", () => {
@@ -70,7 +76,7 @@ describe("Tagging", () => {
     });
     describe("If a new tag is added to the tag pool, it correctly writes it to the tag file. (At the moment, this is a different file for test purposes.)", () => {
         it("TagFile writes unofficial tags correctly", (done) => {
-            fs.writeFile("./priv/outputTGFile.txt", "", 'utf8', (err) => {
+           resetDB( () => {
                 getDataAndStatus("http:/localhost:2021/writetags?newTag=Crap,19,None,19,0", "Tag has been written.", 200, () => {
                     fs.readFile("./priv/outputTGFile.txt", 'utf8' , (err, data) => {
                         assert.strictEqual(data, "Meme:1:None:1:0,tagme:7:None:7:0;Crud:8:None:8:0,Crap:19:None:19:0;Frozen:2:None:2:0,Risque:3:None:3:0,Quarantined:4:None:4:0,Contentious:5:None:5:0,No Download:6:None:6:0");

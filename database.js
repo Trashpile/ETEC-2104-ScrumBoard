@@ -1,6 +1,7 @@
 sqlite3 = require("sqlite3").verbose();
 
 let conn = new sqlite3.Database("./priv/memedepository.sql");
+let alt = new sqlite3.Database("./priv/tagWriteTest.sql")
 let name = "Bob";
 let password = "s3cr3t";
 
@@ -62,6 +63,12 @@ function main(reset)
                 console.log("error is:",e) //Runs if err, null if not
             }
         );
+        alt.run( `drop table tags`,
+            {}, //Initial parameters. Empty for now.
+            (e) => {
+                console.log("error is:",e) //Runs if err, null if not
+            }
+        );
         }
         //...use conn...
         //Note: foreign keys cannot be tagged as such, but primary keys can.
@@ -94,8 +101,7 @@ function main(reset)
         {}, //Initial parameters. Empty for now.
         (e) => {
             console.log("error is:",e) //Runs if err, null if not
-        }
-        );
+        });
         conn.run( `create table memesTagJunction(
             mID integer,
             tID integer
@@ -114,8 +120,17 @@ function main(reset)
         {}, //Initial parameters. Empty for now.
         (e) => {
             console.log("error is:",e) //Runs if err, null if not
-        }
-        );
+        });
+        //In the js, the tagType will be an enum. In the database, it will be an integer.
+        alt.run( `create table tags(
+            tID integer primary key,
+            tagContent varchar(32),
+            tagType integer
+            )`,
+        {}, //Initial parameters. Empty for now.
+        (e) => {
+            console.log("error is:",e) //Runs if err, null if not
+        });
         //This should probably be later removed; Database manipulation should happen elsewhere. This file just creates it.
         conn.run( "insert into users (name, password) values ($name, $passwd)",
             { $name: name, $passwd: password }, //Parameters - use the $ sign in .run()
@@ -183,3 +198,5 @@ if( module  === require.main)
     main(true);
 
 exports.recreateDatabase = main;
+exports.tagType = tagType;
+exports.language = language;
