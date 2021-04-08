@@ -34,6 +34,15 @@ function startServer(){
         
     });
 
+    app.get("/viewmeme", (req,res) => {
+        if(req.session && req.session.username){
+            res.redirect("viewmeme.html");
+        } else {
+            res.send("Not Logged In");
+        }
+        
+    });
+
     app.get("/register", (req,res)=>{
         let uname = req.query["username"];
         let passwd = req.query["password"];
