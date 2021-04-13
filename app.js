@@ -50,8 +50,24 @@ function startServer(){
         F.parse(req, (err,fields,files) => {
             let username = fields["username"];
             let password = fields["password"];
+            if( username === undefined ){
+                res.send("INVALID");
+                return;
+            }
+            if( password === undefined ){
+                res.send("INVALID");
+                return;
+            }
             console.log("We got:",username,password);
             res.send("Ok!");
+    
+            AccountManager.getInstance().userExists( username, password, (userExists) => {
+                if(username = AccountManager.getInstance().name ){
+                     res.send("OK");   
+                } else {
+                    res.send("ACCOUNT DOES NOT EXIST");
+                    }
+                });
         });
     })
 
