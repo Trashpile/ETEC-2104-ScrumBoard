@@ -1,4 +1,5 @@
 let fs = require("fs");
+let db = require("./database.js")
 
 class Meme {
     /**
@@ -51,7 +52,7 @@ class Meme {
 class TagPool {
     /**
     * This class will store all the information about the various tags used in the meme depository.
-    * The tag information will be stored in a file on the web server, and the TagPool will load it when it is called. From there
+    * The tag information will be stored in a database on the web server, and the TagPool will load it when it is called. From there
     * methods can be called to extract additional information from the tags. Some tags will be official, and some can be added
     * on the fly. The official tagpool can be edited by moderators to include more tags.
     * There is a special set of tags for internal data, which is to indicate content warnings and quarantines.
@@ -62,35 +63,32 @@ class TagPool {
         this.unofficialTags = [];
         this.internalTags = [];
     } 
-    async readTagFile(callback){
-        fs.readFile(this.tagFile, 'utf8' , (err, data) => {
-            if (err) {
-              console.error(err);
-              return err;
-            }
-            data = data.split(";")
-            for (let i = 0; i < data.length; i++)
+    async readTagFile(conn, callback){
+        conn.serialize();
+        conn.all( "select tID, tagContent, tagType from tags",
+        [],         //no parameters
+        (err,rows) => 
+        {
+            if( err )
             {
-                data[i] = data[i].split(",");
+                console.log("select error:",err);
+                return;
             }
-            for (let i = 0; i < data.length; i++)
+            for(let i=0; i<rows.length; i++)
             {
-                for (let j = 0; j < data[i].length; j++)
+                //console.log("row",i,":",rows[i].tagContent);
+                if (rows[i].tagType == 1)
                 {
-                    data[i][j] = data[i][j].split(":");
+                    this.officialTags.push(new Tag(rows[i].tagContent, rows[i].tID, "None", rows[i].tID, 0));
                 }
-            }
-            for (let i = 0; i < data[0].length; i++)
-            {
-                this.officialTags.push(new Tag(data[0][i][0], data[0][i][1], data[0][i][2], data[0][i][3], data[0][i][4]));
-            }
-            for (let i = 0; i < data[1].length; i++)
-            {
-                this.unofficialTags.push(new Tag(data[1][i][0], data[1][i][1], data[1][i][2], data[1][i][3], data[1][i][4]));
-            }
-            for (let i = 0; i < data[2].length; i++)
-            {
-                this.internalTags.push(new Tag(data[2][i][0], data[2][i][1], data[2][i][2], data[2][i][3], data[2][i][4]));
+                else if (rows[i].tagType == 2)
+                {
+                    this.unofficialTags.push(new Tag(rows[i].tagContent, rows[i].tID, "None", rows[i].tID, 0));
+                }
+                else if (rows[i].tagType == 3)
+                {
+                    this.internalTags.push(new Tag(rows[i].tagContent, rows[i].tID, "None", rows[i].tID, 0));
+                }
             }
             callback();
         });
@@ -98,36 +96,37 @@ class TagPool {
     debug(res){
         res.send(this.internalTags[0].getTagENG());
     }
-    async writeTagFile(location){
+    async writeTagFile(alt){
         let data1 = this.officialTags;
         let data2 = this.unofficialTags;
         let data3 = this.internalTags;
         for (let i = 0; i < data1.length; i++)
         {
-            data1[i] = data1[i].getTagENG() + ":" + data1[i].getTagID() + ":" + data1[i].getAliases() + ":" + data1[i].getPrimeAlias() + ":" + data1[i].getTotalUses();
+            alt.run( "insert into tags (tagContent, tagType) values ($tagContent, $tagType)",
+            { $tagContent: data1.getTagENG(), $tagType: db.tagType.Official }, //Parameters - use the $ sign in .run()
+            (e) => {  
+                console.log("error is:",e) 
+            }
+        );
         }
         for (let i = 0; i < data2.length; i++)
         {
-            data2[i] = data2[i].getTagENG() + ":" + data2[i].getTagID() + ":" + data2[i].getAliases() + ":" + data2[i].getPrimeAlias() + ":" + data2[i].getTotalUses();
+            alt.run( "insert into tags (tagContent, tagType) values ($tagContent, $tagType)",
+            { $tagContent: data2.getTagENG(), $tagType: db.tagType.Unfficial }, //Parameters - use the $ sign in .run()
+            (e) => {  
+                console.log("error is:",e) 
+            }
+        );
         }
         for (let i = 0; i < data3.length; i++)
         {
-            data3[i] = data3[i].getTagENG() + ":" + data3[i].getTagID() + ":" + data3[i].getAliases() + ":" + data3[i].getPrimeAlias() + ":" + data3[i].getTotalUses();
-        }
-        data1 = data1.join(",");
-        data2 = data2.join(",");
-        data3 = data3.join(",");
-        let data = [];
-        data.push(data1);
-        data.push(data2);
-        data.push(data3);
-        data = data.join(";");
-        fs.writeFile(location, data, 'utf8', (err) => {
-            if (err) {
-              console.error(err);
-              return err;
+            alt.run( "insert into tags (tagContent, tagType) values ($tagContent, $tagType)",
+            { $tagContent: data3.getTagENG(), $tagType: db.tagType.Internal }, //Parameters - use the $ sign in .run()
+            (e) => {  
+                console.log("error is:",e) 
             }
-        });
+        );
+        }
     }
     getOfficialTags(){
         return this.officialTags;
