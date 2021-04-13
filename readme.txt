@@ -7,7 +7,7 @@ CoS -This link will bring the user to a page that will have the user input their
 Email address and have them go through email verification to which will return them their username and a temporary password.
 
 DONE: -a page that will have the user input their Email address and have them go through email verification to which will send them
-an email.
+an email with a temp password.
 
 Notes: -need to input an gmail and password to send that allows less secure apps inside app.js.
 -Uses nodemailer
