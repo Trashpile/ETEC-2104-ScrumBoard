@@ -2,7 +2,9 @@
 <html>
 <head>
 <meta charset=utf8>
+<link rel="stylesheet" href="light.css">
 
+</head>
 <body>
     
 <%- include("header"); %>
@@ -12,14 +14,32 @@ This is your settings page.
     <input type="text" id="currentUser" name="currentUser" value="<%= currentUser %>"style="height:20px; width:80;"><br>
     <div class="form-group">
 
-    <label for="Privacy">Change your privacy settings.</label><br>
-    <input type="text" id="privacy" name="privacy" value="<%= privacy %>"style="height:20px; width:80;"><br>
+    <label for="Privacy">Change your privacy settings (private is true or false).</label><br>
+    <input type="text" id="privacy" name="privacy" value="<%= privacy %>"style="height:20px; width:80;"><br></div>
     <div class="form-group">
     
     <label for="Bio">Enter profile description.</label><br>
-    <input type="text" id="bio" name="bio" value="<%= bio %>"style="height:20px; width:80;"><br>
+    <input type="text" id="bio" name="bio" value="<%= bio %>"style="height:20px; width:80;"></div>
     <div class="form-group">
 
-    <input type="submit" value="Submit">
+    Select theme<br>
+    <input type="radio" id="light" name="theme" value="light">Light theme</div>
+    <label for="light"></label>
+    <input type="radio" id="dark" name="theme" value="dark">Dark theme</div>
+    <label for="dark"></label><br>
 
+
+    <div class="form-group">
+    
+    <input type="submit" value="Submit"></div></form>
+
+    <%if(theme=="dark") { %>
+        <script>
+        var element = document.getElementsByTagName('link')[0];
+        element.setAttribute('href', 'dark.css');</script>
+    <% } else { %>
+      <script>
+      var element = document.getElementsByTagName('link')[0];
+      element.setAttribute('href', 'light.css');</script>
+    <% } %>
 </body></html>

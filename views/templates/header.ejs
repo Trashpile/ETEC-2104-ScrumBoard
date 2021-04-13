@@ -2,13 +2,73 @@
 <html>
 <head>
 <meta charset=utf8>
+<link rel="stylesheet" href="style.css">
+
+<script>
+
+function SettingsButton() {
+  document.getElementById("Dropdown").classList.toggle("show");
+}
+
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn') && !event.target.matches('.dropbtn2')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+
+}
+
+function ThemeButton() {
+  document.getElementById("Dropdown2").classList.toggle("show2");
+}
+
+
+
+
+function changeTheme(dark) {
+       
+       var themelink = document.getElementsByTagName('link')[0];
+     
+       if (dark===true) {
+        themelink.setAttribute('href', 'dark.css');
+
+       } else {
+        themelink.setAttribute('href', 'light.css');
+
+       }
+   }
+
+</script>
 
 </head>
 <a href="/profile">
     <img src="avatar.png" alt="Your profile picture." style="position: absolute; right: 0px; top: 0px; height:60px;">
     </a>
     <a href="/home">Home</a>
-    <a href="/register">Login</a>
-    <a href="/settings">Settings</a>
+    <a href="/register">Login/Register</a>
 
+    <div class="dropdown">
+        Options
+        <img src="gear.png" onclick="SettingsButton()" class="dropbtn" alt="Gear icon" style=" height:20px;">
+        <div id="Dropdown" class="dropdown-content">
+            <a href="/settings">Settings</a>
+          
+            <div class="dropdown2">
+              <button class="dropbtn2" onclick="ThemeButton()">Themes</button>
+              <div id="Dropdown2" div class="dropdown-content2">
+                <input type="button" class="graycircle" onclick="changeTheme(false)"  alt="gray circle" style=" height:45px; width: 45px">
+                <input type="button" class="blackcircle" onclick="changeTheme(true)"  alt="black circle" style=" height:45px; width: 45px">
+
+              </div>
+            </div>
+        </div>
+        </div>
+       
+       
 </html>

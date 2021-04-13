@@ -4,19 +4,22 @@
 <meta charset=utf8>
 <script src="bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="light.css">
 <link rel="stylesheet" href="jquery-ui.min.css">
+
 <script src="jquery-ui.min.js"></script>
 
 </head><body>
     
 <%- include("header"); %>
-<% if( username === undefined || privacy === undefined) {%>
+
+<% if(username == undefined) {%>
     Please enter a valid username.
 
 <% } else if(privacy==true) { %>
     This page is private.
     <%= username %>'s profile page
-
+    
 <% } else { %>
     <p>Current User: <%= currentUser %></p>
 
@@ -78,7 +81,16 @@
       </table>
       
       </body>
-      
+    <%if(theme=="dark") { %>
+        <script>
+        var element = document.getElementsByTagName('link')[0];
+        element.setAttribute('href', 'dark.css');</script>
+    <% } else { %>
+      <script>
+      var element = document.getElementsByTagName('link')[0];
+      element.setAttribute('href', 'light.css');</script>
+    <% } %>
+
 <% } %>
 
 </body></html>

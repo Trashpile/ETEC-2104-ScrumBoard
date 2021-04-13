@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset=utf8>
+<link rel="stylesheet" href="light.css">
 
 <body>
     
@@ -15,5 +16,13 @@ This is the login page.
     <input type="text" id="registerpass" name="password" value="Password"style="height:20px; width:80;"><br>
     <div class="form-group">
     <input type="submit" value="Submit">
-
+    <%if(theme=="dark") { %>
+        <script>
+        var element = document.getElementsByTagName('link')[0];
+        element.setAttribute('href', 'dark.css');</script>
+    <% } else { %>
+      <script>
+      var element = document.getElementsByTagName('link')[0];
+      element.setAttribute('href', 'light.css');</script>
+    <% } %>
 </body></html>
