@@ -168,8 +168,6 @@ describe("Account Tests", () => {
         });
     });
 
-    // break
-
     describe("ignoreReceivedRequest", () => {
         it("should return true if received friend request is ignored", () => {
             assert.strictEqual( W.sendFriendRequest(S.id, S), true);
