@@ -161,6 +161,14 @@ function startServer(){
             }
         });
     });
+
+    //Mark S
+    app.get("/bio", (req,res)=>{   
+        let currentUser = req.session.username;
+        var x = app.getElementById("bio").name;
+        accountManager.changeBio(currentUser,x);
+
+    });
     let srv = app.listen(2021);
     return srv;
 }
