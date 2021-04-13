@@ -69,6 +69,10 @@ function startServer(){
         }
     });
 
+    app.get("/gallery", (req,res) => {
+        res.session
+    })
+
     app.get("/favorites", (req,res) => {
         if(req.session && req.session.username){
             let currentUser = req.session.username;
