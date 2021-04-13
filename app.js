@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 let express = require("express");
 let formidable = require("formidable");
@@ -63,6 +63,7 @@ function startServer(){
 function stopServer(srv){
     srv.close();
 }
+
 
 exports.startServer = startServer;
 exports.stopServer = stopServer;

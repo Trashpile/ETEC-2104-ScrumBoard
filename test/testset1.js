@@ -18,7 +18,7 @@ describe("login.js", () => {
         });
 
         //it("should return true if the list includes the user", () => {
-            //assert.strictEqual(function contains(testusers, "Bob"), true);
+            //assert.strictEqual(login.contains(testusers, "Bob"), true);
         //});
     });
 });
