@@ -2,15 +2,27 @@
 
 let express = require("express");
 let formidable = require("formidable");
-let fs = require("fs");
-let sort = require("./sort").sort;
-let Meme = require("./meme").Meme;
+let MemeManager = require("./MemeManager").MemeManager;
+let formatDate = require("./FormatDate").formatDate;
 
-let testList = [new Meme(2017,11,25), new Meme(2015,3,2), new Meme(2014,0,3), new Meme(2015,3,2), new Meme(2013,4,6)];
+let MM = MemeManager.getInstance("main.sql");
+MM.truncateTable( () => {
+    MM.addMeme("2019/01/03", () => {
+        MM.addMeme("2018/01/01", () => {
+            MM.addMeme("2020/03/02", () => {
+                MM.addMeme("2019/12/25", () => {
+                    MM.addMeme("2020/10/03");
+                });
+            });
+        });
+    });
+});
 
 let app = express();
 app.use( express.static("pub") );
 app.get("/", (req,res) => { res.redirect("/pub/index.html"); });
+
+app.get("/search", (req,res) => { res.redirect("search.html"); });
 
 app.post("/searchbydate", (req,res) => {
     console.log("SEARCHING...");
@@ -18,16 +30,15 @@ app.post("/searchbydate", (req,res) => {
         multiples: true
     });
     F.parse(req, (err,fields,files) => {
-        let fromDate = sort.stringToDate(fields["fromDate"]);
-        let toDate = sort.stringToDate(fields["toDate"]);
+        let fromDate = formatDate(fields["fromDate"]);
+        let toDate = formatDate(fields["toDate"]);
         let sortType = fields["sortType"];
-        if(fromDate===-1){fromDate=null}
-        if(toDate===-1){toDate=null}
-        //console.log(fromDate,"\n",toDate,"\n",sortType);
-        //console.log(typeof(fromDate));
-        let newList = sort.searchByDate(testList, fromDate, toDate, sortType);
-        console.log(newList);
-        res.send(newList);
+        if(fromDate===-1){fromDate="2001/01/01"}
+        if(toDate===-1){toDate="2050/01/01"}
+        MM.searchMemesByDate(fromDate, toDate, sortType, (newList) => {
+            console.log(newList);
+            res.send(newList);
+        })
     });
 })
 
