@@ -53,11 +53,7 @@ describe("repostTest (From repostingTestSet)", () => {
 
 
 
-/*      ---Questions to ask during class about the "Reposting Sprint"---
-
-
-
-
+/*
 User Story 2: I would like the ability to repost memes posted by others    (2/4)
 
 ---INCOMPLETED---
