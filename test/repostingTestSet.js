@@ -67,4 +67,5 @@ COS3: A way to quickly access the profile of the original poster by clicking the
 COS1: A button that if pressed, takes the meme currently being viewed, and displays it on another user's profile with the name of the original
 poster       
 COS4: Must be signed in to use this feature.
+
 */
