@@ -5,38 +5,96 @@
 //});
 
 class Comment {
-    constructor(currentAuthor, currentDate, currentText, currentCID) {
+    constructor(currentAuthor, currentDate, currentText, currentCID, nestValue=0) {
         this.author = currentAuthor;
         this.dateCreated = currentDate;
         this.text = currentText;
         this.commentID = currentCID;
-        this.replyIDs = [];
+        this.replyNestValue = nestValue;
+        this.replyArray = [];
     }
 }
 var memeCommentArray = [];      // Every Comment object from users who commented on the meme itself [not replies!]
 var newCID = 0;
 
-// placeholder functions
+
+
+function insertAfter(newNode, existingNode) {
+    existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
+}
+
 function postNewComment() {
     let newText = document.getElementById("commentText").value;
-    //document.getElementById("display").innerHTML = newText;   // placeholder return
-    // create a new Comment class instance, append it to an array of Comment objects
-    let x = new Comment("FooAuthor", "FooDate", newText, newCID);   // Replace FooAuthor with actual account author
-    let y = "";
-    let z;
-    let borderChar = "-"
-    let borderCharBold = "="
+    let currentDate = new Date();
+    let commentDate = "".concat(String(currentDate.getMonth()), "/", String(currentDate.getDate()), "/", String(currentDate.getFullYear()));
+    let x = new Comment("FooAuthor", commentDate, newText, newCID);   // Replace FooAuthor with actual account author
     memeCommentArray.push(x);
     newCID++;
-    for (var i = 0; i < memeCommentArray.length; i++)
-    {
-        // Print out each comment with corresponding information. [author, text, etc.]
-        z = y.concat("+", borderChar.repeat(memeCommentArray[i].author.length + 2), "+\n| ", memeCommentArray[i].author, " |\n", borderCharBold.repeat(82), 
-            "\n", memeCommentArray[i].text, "\n", borderCharBold.repeat(82), "\n\n");
-        y = z;
-    }
-    document.getElementById("display").innerHTML = z;
+    addHTMLtextElement(x);
+    addHTMLbuttonElement(x);
 }
-//function renderComments() {
-    // TODO - render each Comment in Comment array here
+
+function postReply(comment) {
+    // CURRENTLY UNFINISHED
+    let newText = document.getElementById("commentText").value;
+    let currentDate = new Date();
+    let commentDate = "".concat(String(currentDate.getMonth()), "/", String(currentDate.getDate()), "/", String(currentDate.getFullYear()));
+    let x = new Comment("FooAuthor", commentDate, newText, newCID, comment.replyNestValue + 1);   // Replace FooAuthor with actual account author
+    comment.replyArray.push(x);
+    newCID++;
+    addHTMLtextElement(x);
+    addHTMLbuttonElement(x);
+}
+
+
+//function refreshComments() {
+//    for (var i = 0; i < memeCommentArray.length; i++)
+//    {
+//         addHTMLtextElement(memeCommentArray[i]);
+//         for (var j = 0; j < memeCommentArray[i].replyArray.length; j++)
+//         {
+//            addHTMLtextElement(memeCommentArray[i].replyArray[j]);
+//         }
+//    }
 //}
+
+function addHTMLtextElement(comment) {
+    // create a new pre element
+    const idPrefix = "CID_";
+    const borderChar = "-";
+    const borderCharBold = "=";
+    var indentOffset = comment.replyNestValue * 5;
+    const commentText = "".concat(" ".repeat(indentOffset), 
+        "+", borderChar.repeat(comment.author.length + 2), "+", borderChar.repeat(12), "+\n", 
+        " ".repeat(indentOffset), 
+        "| ", comment.author, " | ", comment.dateCreated, " |\n", 
+        " ".repeat(indentOffset), 
+        borderCharBold.repeat(82), "\n", 
+        " ".repeat(indentOffset), 
+        comment.text, "\n", 
+        " ".repeat(indentOffset), 
+        borderCharBold.repeat(82), "\n");
+    const newPre = document.createElement("pre");
+    newPre.setAttribute("id", idPrefix.concat(String(comment.commentID)));
+
+
+    const newContent = document.createTextNode(commentText);
+
+    newPre.appendChild(newContent);
+
+    const currentPre = document.getElementById("display");
+    document.body.insertBefore(newPre, currentPre);  
+}
+
+function addHTMLbuttonElement(comment) {
+    // create a new Button element
+    const idPrefix = "BUTTON_";
+    const newButton = document.createElement("button");
+    newButton.setAttribute("id", idPrefix.concat(comment.commentID));
+    newButton.textContent = "Reply";
+    newButton.onClick = "postReply(comment)";
+
+    const currentPre = document.getElementById("CID_".concat(comment.commentID));
+    insertAfter(newButton, currentPre); 
+}
+
