@@ -15,7 +15,7 @@ function startServer(){
     
     let TagPool = new tagging.TagPool("./priv/tagFile.txt");
     
-    app.use( express.static( "pub" ) );
+    app.use(express.static("pub"));
 
     app.use(session({
         resave:false,
@@ -26,7 +26,7 @@ function startServer(){
     let memeManager = new MemeManager.MemeManager();
     let accountManager = new AccountManager.AccountManager();
     app.get("/", (req,res) => {
-        res.sendFile("This is the index page. Nothing is here ... for now.");
+        res.render("./pub/mainpage.html");
     });
     
     app.get("/home", (req,res) => {
