@@ -6,6 +6,8 @@ const session = require("express-session");
 let fs = require("fs");
 let formidable = require("formidable");
 
+let upload_meme = require("./pub/uploadMeme/uploadMemeMain.js");
+
 
 function startServer(){
     let app = express();
@@ -122,6 +124,8 @@ function check(req){
             res.send("");
         }
     });
+    
+    upload_meme.uploadMemeMain(app);
    
     let srv = app.listen(2021);
     return srv;
