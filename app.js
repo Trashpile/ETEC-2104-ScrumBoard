@@ -6,8 +6,8 @@ let AccountManager = require("./AccountManager");
 let MemeManager = require("./MemeManager");
 const session = require("express-session");
 let tagging = require("./tagging");
-//Connect, select for results.
-//Need to:  Check if Null before populating
+let conn = new sqlite3.Database("./priv/memedepository.sql");
+let alt = new sqlite3.Database("./priv/tagWriteTest.sql")
 
 
 function startServer(){
@@ -165,7 +165,7 @@ function startServer(){
                 {
                 let newTag = new tagging.Tag(taglist[0], taglist[1], taglist[2], taglist[3], taglist[4]);
                 TagPool.addUnofficialTag(newTag);
-                TagPool.writeTagFile("./priv/outputTGFile.txt");
+                TagPool.writeTagFile(alt);
                 res.status(200).send("Tag has been written.");
                 }
                 else
