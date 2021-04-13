@@ -33,7 +33,8 @@ function startServer(){
     
     app.get("/home", (req,res) => {
         if(req.session && req.session.username){
-            res.redirect("home.html");
+            //res.redirect("home.html");
+            res.render("templates/home.ejs");
         } else {
             res.send("Not Logged In");
         }
@@ -44,7 +45,8 @@ function startServer(){
         let passwd = req.query["password"];
 
         if( uname === undefined && passwd === undefined ){
-            res.send("THIS IS THE REGISTRATION PAGE");
+            res.send("THIS IS THE REGISTRATION PAGE.  Congrats");
+            res.render("templates/home.ejs");
             return;
         }
         
@@ -183,11 +185,11 @@ function startServer(){
         M.memeData = 
         [
             new MemeManager.Meme(img, true, 1000, "funnymeme"),
-            new MemeManager.Meme(img, true, 1000,"sadmeme"),
-            new MemeManager.Meme(img, true, 1000,"fatmeme"),
-            new MemeManager.Meme(img, true, 1000,"catmeme"),
-            new MemeManager.Meme(img, true, 1000,"radmeme"),
-            new MemeManager.Meme(img, true, 1000,"saddermeme"),
+            new MemeManager.Meme(img, true, 100,"sadmeme"),
+            new MemeManager.Meme(img, true, 10,"happymeme"),
+            new MemeManager.Meme(img, true, 10000,"catmeme"),
+            new MemeManager.Meme(img, true, 500,"radmeme"),
+            new MemeManager.Meme(img, true, 3000,"saddermeme"),
             new MemeManager.Meme(img, true, 1000,"madmeme")
         ]
         M.sortByLike();
