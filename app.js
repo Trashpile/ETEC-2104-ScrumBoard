@@ -17,6 +17,7 @@ function startServer(){
     app.get("/register", (req,res)=>{
         let uname = req.query["username"];
         let passwd = req.query["password"];
+    });
 
 app.post("/login", (req,res) => {
     console.log("In the login page");
@@ -34,16 +35,12 @@ app.post("/login", (req,res) => {
 
     let srv = app.listen(2021);
     return srv;
-}
+
 function stopServer(srv){
     srv.close();
 }
-//
-//if we're being run directly from command line
-if( module  === require.main )
-    startServer();
-
 exports.startServer = startServer;
 exports.stopServer = stopServer;
+}
 
 //merged by carter with samantha
