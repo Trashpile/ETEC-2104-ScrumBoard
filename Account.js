@@ -2,22 +2,27 @@
 
 class Account
 {
-    constructor(uname, uID, isPrivate)
+    constructor(uname, uID, isLoggedIn)
     {
-        this.id = uID;
         this.username = uname;
+        this.id = uID;
+        this.isLoggedIn = isLoggedIn;
+        this.friends = new Map();
+        this.requestsReceived = new Map();
+        this.requestsSent = new Map();
         //this.follow = new Map();
         //this.followers = new Map();
         //this.followerRequests = new Map();
         //this.private = isPrivate;
-        this.friends = new Map();
-        this.requestsReceived = new Map();
-        this.requestsSent = new Map();
     }
 
     sendFriendRequest(uID, other)
     {
-        if (uID == this.id || this.friends.has(uID))
+        if (this.isLoggedIn === false)
+        {
+            return false;
+        }
+        else if (uID == this.id || this.friends.has(uID))
         {
             return false;
         }
@@ -32,7 +37,11 @@ class Account
 
     acceptFriendRequest(uID, other)
     {
-        if (uID == this.id)
+        if (this.isLoggedIn === false)
+        {
+            return false;
+        }
+        else if (uID == this.id)
         {
             return false;
         }
@@ -53,17 +62,31 @@ class Account
 
     isFriend(uID, other)
     {
-        return this.friends.has(uID);
+        if (this.isLoggedIn === false)
+        {
+            return false;
+        }
+        else
+            return this.friends.has(uID);
     }
 
     hasFriendRequest(uID, other)
     {
-        return this.requestsReceived.has(uID);
+        if (this.isLoggedIn === false)
+        {
+            return false;
+        }
+        else
+            return this.requestsReceived.has(uID);
     }
 
     removeFriend(uID, other)
     {
-        if (uID == this.id || this.friends.has(uID) == false)
+        if (this.isLoggedIn === false)
+        {
+            return false;
+        }
+        else if (uID == this.id || this.friends.has(uID) == false)
         {
             return false;
         }
@@ -77,7 +100,11 @@ class Account
 
     deleteSentRequest(uID, other)
     {
-        if (uID == this.id || this.requestsSent.has(uID) == false)
+        if (this.isLoggedIn === false)
+        {
+            return false;
+        }
+        else if (uID == this.id || this.requestsSent.has(uID) == false)
         {
             return false;
         }
@@ -91,7 +118,11 @@ class Account
 
     ignoreReceivedRequest(uID, other)
     {
-        if (uID == this.id || this.requestsReceived.has(uID) == false)
+        if (this.isLoggedIn === false)
+        {
+            return false;
+        }
+        else if (uID == this.id || this.requestsReceived.has(uID) == false)
         {
             return false;
         }

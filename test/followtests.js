@@ -9,8 +9,8 @@ describe("Account Tests", () => {
     let S;
 
     beforeEach( () => {
-        W = new Account("WhiteChicken", 1000, false);
-        S = new Account("TheShadowMan", 1001, false);
+        W = new Account("WhiteChicken", 1000, true);
+        S = new Account("TheShadowMan", 1001, true);
     });
 
     describe("sendFriendRequest", () => {
