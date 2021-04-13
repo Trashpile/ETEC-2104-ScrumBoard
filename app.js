@@ -124,7 +124,8 @@ function check(req){
             res.send("");
         }
     });
-    
+
+    // Reserved /upload
     upload_meme.uploadMemeMain(app);
    
     let srv = app.listen(2021);
