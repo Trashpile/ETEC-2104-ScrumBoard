@@ -1,16 +1,12 @@
 {
-  "name": "Sprint_1",
+  "name": "sprint2_test",
   "version": "1.0.0",
   "description": "",
-  "main": "suggestions.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "jquery": "^3.6.0",
-    "mocha": "^8.3.2"
-  }
+  "license": "ISC"
 }
