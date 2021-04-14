@@ -1,6 +1,4 @@
-//Testing comment for debugging
-
-
+let DataBase = require("./database");
 class Meme{
     constructor(/*possible list of tags?*/memeImage, isFavorite, creatorID, name){
         this.image = memeImage;
@@ -65,6 +63,22 @@ class MemeManager{
                 }
             }
         }
+    }
+    //Will refactor soon...
+    giveMeTheTopFiveMemesByLikes( callback ) {
+        DataBase.Database.getInstance().all( "select mid from memes order by likes desc",
+        {},
+        (e,rows) => 
+        {
+            let L = [];
+            //returns only top 5 of the order numlikes memes, since it returns memeID in DESC-ending order.
+            for(let i=0;i<5 && i < rows.length; ++i )
+            { //i++???
+                console.log("row",i,":",rows[i]);
+                L.push(rows[i]);
+            }
+            callback(L); //Sends a list of the top five memes, to app.js ideally...
+        });
     }
 }
 exports.MemeManager = MemeManager;

@@ -10,7 +10,7 @@
             "-u",
             "bdd",
             "--timeout",
-            "999999",
+            "300",
             "--colors",
             "${workspaceFolder}/test"
         ],

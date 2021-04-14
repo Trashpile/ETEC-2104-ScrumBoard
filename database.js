@@ -5,6 +5,32 @@ let alt = new sqlite3.Database("./priv/tagWriteTest.sql")
 let name = "Bob";
 let password = "s3cr3t";
 
+let instance = undefined;
+class Database{
+    constructor(){
+        this.conn = new sqlite3.Database("./priv/memedepository.sql");
+        conn.serialize();
+    }
+    static getInstance(){
+        if( !instance )
+            instance = new Database();
+        return instance;
+    }
+      //...other methods here if desired...
+      ///sqlQuery is the string we send into the database in sql formatting  
+      ///sqlParams is the {}, the list of paramaters inside the query string.  
+      ///EX  {$tagContent: "Meme", $tagType: tagType.Official} replaces the $tagContent and $tagType inside the string with "Meme" and tagType.Official
+      ///callback ensures it completes in an asynchronous fashion, useful for error checking.
+    run( sqlQuery, sqlParams, callback ){
+        conn.run( sqlQuery, sqlParams, () => { callback(); } );
+    }
+    all(sqlQuery, sqlParams, callback)
+    {
+        conn.all(sqlQuery, sqlParams, () => {callback(); } );
+    }
+}
+exports.Database = Database;
+
 const tagType = {
     Official: 1,
     Unofficial: 2,
@@ -38,6 +64,12 @@ function main(reset)
             (e) => {
                 console.log("error is:",e) //Runs if err, null if not
             }
+            //We could replace this conn.run() with Database.Database.getinstance().run('drop table users', {}, (e)=> {console.log("error is:",e);})
+            //It would essentially be the same, but -
+            //The difference being, we can use this in many different parts of code without repeating making a new database.
+            //We can refactor this further for ease of use, though . . . such as making a drop() function that already knows to drop a table, give no params,
+            //And then give a callback error function . . . Simplifying the call to Database.getinstance().drop("users");
+            //This makes debugging all these tables simultaneously, as well as integrating it into merged code, much easier.
         );
         conn.run( `drop table tags`,
             {}, //Initial parameters. Empty for now.
@@ -87,6 +119,7 @@ function main(reset)
             name varchar(32),
             uid integer,
             tid integer,
+            likes integer,
             avatar blob)`,
         {}, //Initial parameters. Empty for now.
         (e) => {

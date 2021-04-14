@@ -4,6 +4,7 @@ let express = require("express");
 let fs = require("fs");
 let AccountManager = require("./AccountManager");
 let MemeManager = require("./MemeManager");
+let DataBase = require("./database");
 const session = require("express-session");
 let tagging = require("./tagging");
 let sqlite3 = require("sqlite3").verbose();
@@ -175,7 +176,11 @@ function startServer(){
             }
         });
     });
-
+    app.get("/topfivememesbylikes", (req,res) => {
+        memeManager.giveMeTheTopFiveMemesByLikes( (L) => {
+            res.send( L.join("\n") ); //The list is now concatinated.
+        });
+    });
     app.get("/trending", (req,res) => {
     
         let M = new MemeManager.MemeManager();

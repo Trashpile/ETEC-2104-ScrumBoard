@@ -8,7 +8,7 @@ describe("P.H. Test-set for Trending functionality & Meme Class compatability. .
         {
             M = new MemeManager.MemeManager();
             //Popuate mData with dummy values.
-            M.mData = 
+            M.memeData = 
             [
                 new MemeManager.Meme(200, "funnyCat"),
                 new MemeManager.Meme(3000, "sadCat"),
@@ -18,7 +18,7 @@ describe("P.H. Test-set for Trending functionality & Meme Class compatability. .
                 new MemeManager.Meme(10000, "sadderCat"),
                 new MemeManager.Meme(30, "madCat")
             ]
-            //console.log(M.mData);
+            console.log(M.mData);
         });
         it("Should generate dummy meme values", () =>
         {
