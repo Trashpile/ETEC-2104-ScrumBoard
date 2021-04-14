@@ -125,6 +125,16 @@ function main(reset)
         (e) => {
             console.log("error is:",e) //Runs if err, null if not
         });
+
+        //junction table from users to memes for favorites
+        conn.run( `create table favorites(
+            mid integer foreign key,
+            uid integer foreign key)`,
+        {}, 
+        (e) => {
+            console.log("error is:",e) 
+        });
+
         //In the js, the tagType will be an enum. In the database, it will be an integer.
         conn.run( `create table tags(
             tID integer primary key,

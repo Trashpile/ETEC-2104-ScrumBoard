@@ -7,8 +7,6 @@ let MemeManager = require("./MemeManager");
 let DataBase = require("./database");
 const session = require("express-session");
 let tagging = require("./tagging");
-let sqlite3 = require("sqlite3").verbose();
-
 let conn = new sqlite3.Database("./priv/memedepository.sql");
 let alt = new sqlite3.Database("./priv/tagWriteTest.sql")
 
@@ -18,7 +16,7 @@ function startServer(){
     
     let TagPool = new tagging.TagPool("./priv/tagFile.txt");
     
-    app.use( express.static( "pub" ) );
+    app.use(express.static("pub"));
 
     app.use(session({
         resave:false,
@@ -29,7 +27,7 @@ function startServer(){
     let memeManager = new MemeManager.MemeManager();
     let accountManager = new AccountManager.AccountManager();
     app.get("/", (req,res) => {
-        res.sendFile("This is the index page. Nothing is here ... for now.");
+        res.render("./pub/mainpage.html");
     });
     
     app.get("/home", (req,res) => {
@@ -74,6 +72,10 @@ function startServer(){
         }
     });
 
+    app.get("/gallery", (req,res) => {
+        res.redirect("gallery.html");
+    })
+
     app.get("/favorites", (req,res) => {
         if(req.session && req.session.username){
             let currentUser = req.session.username;
@@ -93,7 +95,7 @@ function startServer(){
     });
     
     app.get("/tagaccess", (req,res) => {
-        TagPool.readTagFile(conn, () => {
+        TagPool.readTagFile(() => {
             let string = "";
             let reqType = req.query["reqType"];
             if (reqType === undefined)
@@ -128,7 +130,7 @@ function startServer(){
     });
     
     app.get("/memetags", (req,res) => {
-        TagPool.readTagFile(conn, () => {
+        TagPool.readTagFile(() => {
             let memestring = req.query["newMeme"];
             if (memestring === undefined)
             {
@@ -153,7 +155,7 @@ function startServer(){
     });
     
     app.get("/writetags", (req,res) => {
-        TagPool.readTagFile(conn, () => {
+        TagPool.readTagFile(() => {
             let tagstring = req.query["newTag"];
             if (tagstring === undefined)
             {
