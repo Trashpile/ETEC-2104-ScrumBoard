@@ -1,4 +1,5 @@
 let DataBase = require("./database");
+sqlite3 = require("sqlite3").verbose();
 class Meme{
     constructor(/*possible list of tags?*/memeImage, isFavorite, creatorID, name){
         this.image = memeImage;
@@ -64,19 +65,22 @@ class MemeManager{
             }
         }
     }
-    //Will refactor soon...
+    //Will refactor soon... I can't get it to work with the getInstance();
     giveMeTheTopFiveMemesByLikes( callback ) {
-        DataBase.Database.getInstance().all( "select mid from memes order by likes desc",
+        //DataBase.Database.getInstance().all( "select mid from memes order by likes desc",
+        let conn = new sqlite3.Database("main.sql");
+        conn.all("select mid from memes order by likes desc",
         {},
         (e,rows) => 
         {
             let L = [];
-            //returns only top 5 of the order numlikes memes, since it returns memeID in DESC-ending order.
+            //returns only top 5 of the order likes memes, since it returns mid in DESC-ending order.
             for(let i=0;i<5 && i < rows.length; ++i )
             { //i++???
                 console.log("row",i,":",rows[i]);
                 L.push(rows[i]);
             }
+            conn.close();
             callback(L); //Sends a list of the top five memes, to app.js ideally...
         });
     }

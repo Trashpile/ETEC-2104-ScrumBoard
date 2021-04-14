@@ -29,7 +29,7 @@ class Database{
         conn.all(sqlQuery, sqlParams, () => {callback(); } );
     }
 }
-exports.Database = Database;
+
 
 const tagType = {
     Official: 1,
@@ -243,3 +243,4 @@ if( module  === require.main)
 exports.recreateDatabase = main;
 exports.tagType = tagType;
 exports.language = language;
+exports.Database = Database;
