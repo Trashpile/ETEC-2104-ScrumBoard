@@ -65,22 +65,22 @@ class MemeManager{
             }
         }
     }
-    //Will refactor soon... I can't get it to work with the getInstance();
+    //Will refactor soon...
+    //Returns a List in the callback of the top 5 memes in the database.
     giveMeTheTopFiveMemesByLikes( callback ) {
-        //DataBase.Database.getInstance().all( "select mid from memes order by likes desc",
-        let conn = new sqlite3.Database("main.sql");
-        conn.all("select mid from memes order by likes desc",
+        DataBase.Database.getInstance().all( "select mid from memes order by likes desc",
         {},
         (e,rows) => 
         {
             let L = [];
+            console.log(rows);
             //returns only top 5 of the order likes memes, since it returns mid in DESC-ending order.
             for(let i=0;i<5 && i < rows.length; ++i )
             { //i++???
                 console.log("row",i,":",rows[i]);
                 L.push(rows[i]);
             }
-            conn.close();
+            //conn.close();
             callback(L); //Sends a list of the top five memes, to app.js ideally...
         });
     }

@@ -26,7 +26,17 @@ class Database{
     }
     all(sqlQuery, sqlParams, callback)
     {
-        conn.all(sqlQuery, sqlParams, () => {callback(); } );
+        conn.all(sqlQuery, sqlParams, (e, rows) => {callback(e,rows); } );
+    }
+    //This is for user freindliness.  It's meant to abstract code so the user doesn't have to write SQL strings.
+    //This function makes an SQL query to add something into the memes table, for example.
+    addMeme(name, likes=0){
+        conn.run( "insert into memes (name, likes) values ($name, $likes)",
+            { $name: name, $likes: likes }, //Parameters - use the $ sign in .run()
+            (e) => {  
+                console.log("error is:",e) 
+            }
+        );
     }
 }
 
@@ -174,6 +184,30 @@ function main(reset)
         (e) => {
             console.log("error is:",e) //Runs if err, null if not
         });
+        //This should ALSO probably be later removed; Database manipulation should happen elsewhere.
+        conn.run( "insert into memes (name, likes) values ($name, $likes)",
+            { $name: "SadCat", $likes: 5 }, //Parameters - use the $ sign in .run()
+            (e) => {  
+                console.log("error is:",e) 
+            }
+        );
+         conn.run( "insert into memes (name, likes) values ($name, $likes)",
+            { $name: "SadderCat", $likes: 50 }, //Parameters - use the $ sign in .run()
+            (e) => {  
+                console.log("error is:",e) 
+            }
+        );
+         conn.run( "insert into memes (name, likes) values ($name, $likes)",
+            { $name: "SaddestCat", $likes: -5 }, //Parameters - use the $ sign in .run()
+            (e) => {  
+                console.log("error is:",e) 
+            }
+        );
+        //Example of refactored meme call!
+        //Should add a meme with 0 likes called Boring cat, at mid 4.
+        Database.getInstance().addMeme("Boring cat"); //It would be Database.Database.getInstance() outside this file!
+
+        
         //This should probably be later removed; Database manipulation should happen elsewhere. This file just creates it.
         conn.run( "insert into users (name, password) values ($name, $passwd)",
             { $name: name, $passwd: password }, //Parameters - use the $ sign in .run()
