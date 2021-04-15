@@ -180,11 +180,12 @@ function startServer(){
     });
     app.get("/topfivememesbylikes", (req,res) => {
         memeManager.giveMeTheTopFiveMemesByLikes( (L) => {
-            res.send( L.join("\n") ); //The list is now concatinated.
+            res.send(L);
+            //res.send( L.join("\n") ); //The list is now concatinated.
         });
     });
     app.get("/trending", (req,res) => {
-    
+        //Currently under construction, doesn't actually work  . . .
         let M = new MemeManager.MemeManager();
         //Add some memes!
         //Default image for now

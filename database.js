@@ -206,8 +206,10 @@ function main(reset)
         //Example of refactored meme call!
         //Should add a meme with 0 likes called Boring cat, at mid 4.
         Database.getInstance().addMeme("Boring cat"); //It would be Database.Database.getInstance() outside this file!
+        Database.getInstance().addMeme("Rad cat", 40);
+        Database.getInstance().addMeme("Mad cat");
 
-        
+
         //This should probably be later removed; Database manipulation should happen elsewhere. This file just creates it.
         conn.run( "insert into users (name, password) values ($name, $passwd)",
             { $name: name, $passwd: password }, //Parameters - use the $ sign in .run()
