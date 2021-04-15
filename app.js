@@ -182,6 +182,11 @@ function startServer(){
         memeManager.giveMeTheTopFiveMemesByLikes( (L) => {
             res.send(L);
             //res.send( L.join("\n") ); //The list is now concatinated.
+            //Render the /search template
+            //The search template will take in the list
+            //Display the list
+            //Css will style it in the style
+            
         });
     });
     app.get("/trending", (req,res) => {

@@ -1,5 +1,5 @@
 let DataBase = require("./database");
-sqlite3 = require("sqlite3").verbose();
+//sqlite3 = require("sqlite3").verbose();
 class Meme{
     constructor(/*possible list of tags?*/memeImage, isFavorite, creatorID, name){
         this.image = memeImage;
@@ -77,7 +77,7 @@ class MemeManager{
             for(let i=0;i<5 && i < rows.length; ++i )
             { //i++???
                 console.log("row",i,":",rows[i].name, " likes:", rows[i].likes);
-                L.push(rows[i].name + " Likes: " + rows[i].likes);
+                L.push(rows[i].name + " likes: " + rows[i].likes);
             }
             //conn.close();
             callback(L); //Sends a list of the top five memes, to app.js ideally...
