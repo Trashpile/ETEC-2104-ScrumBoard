@@ -1,0 +1,1 @@
+Meme:1:None:1:0,tagme:7:None:7:0;Crud:8:None:8:0;Frozen:2:None:2:0,Risque:3:None:3:0,Quarantined:4:None:4:0,Contentious:5:None:5:0,No Download:6:None:6:0

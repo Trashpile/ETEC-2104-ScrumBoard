@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset=utf8></head><body>
+<%- include("header"); %>
+<% if( username === undefined ) {%>
+    You are not logged in.
+<% } else { %>
+    This is your profile page, <%= username %>
+<% } %>
+<%- include("footer"); %>
+</body></html>
