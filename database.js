@@ -5,16 +5,18 @@ let alt = new sqlite3.Database("./priv/tagWriteTest.sql")
 let name = "Bob";
 let password = "s3cr3t";
 
-let instance = undefined;
 class Database{
+    static instance = null;
+
     constructor(){
         this.conn = new sqlite3.Database("./priv/memedepository.sql");
+        this.alt = new sqlite3.Database("./priv/tagWriteTest.sql");
         conn.serialize();
     }
     static getInstance(){
-        if( !instance )
-            instance = new Database();
-        return instance;
+        if(Database.instance == null)
+            Database.instance = new Database();
+        return Database.instance;
     }
       //...other methods here if desired...
       ///sqlQuery is the string we send into the database in sql formatting  
@@ -22,16 +24,16 @@ class Database{
       ///EX  {$tagContent: "Meme", $tagType: tagType.Official} replaces the $tagContent and $tagType inside the string with "Meme" and tagType.Official
       ///callback ensures it completes in an asynchronous fashion, useful for error checking.
     run( sqlQuery, sqlParams, callback ){
-        conn.run( sqlQuery, sqlParams, () => { callback(); } );
+        this.conn.run( sqlQuery, sqlParams, () => { callback(); } );
     }
     all(sqlQuery, sqlParams, callback)
     {
-        conn.all(sqlQuery, sqlParams, (e, rows) => {callback(e,rows); } );
+        this.conn.all(sqlQuery, sqlParams, (e, rows) => {callback(e,rows); } );
     }
     //This is for user freindliness.  It's meant to abstract code so the user doesn't have to write SQL strings.
     //This function makes an SQL query to add something into the memes table, for example.
     addMeme(name, likes=0){
-        conn.run( "insert into memes (name, likes) values ($name, $likes)",
+        this.conn.run( "insert into memes (name, likes) values ($name, $likes)",
             { $name: name, $likes: likes }, //Parameters - use the $ sign in .run()
             (e) => {  
                 console.log("error is:",e) 
@@ -58,13 +60,12 @@ const language = {
 
 function main(reset)
 {
+    conn = new sqlite3.Database("./priv/memedepository.sql");
+    alt = new sqlite3.Database("./priv/tagWriteTest.sql");
     conn.serialize(); //Says everytime you submit something to database, it'll force it to run sequentially.
     //Reduces performance, useful for tests
     //It's better to put future async funcs in a callback function - but for now, this'll work.
 
-
-    
-    //
     try
     {
         if (reset)
