@@ -64,7 +64,6 @@ class TagPool {
         this.internalTags = [];
     } 
     async readTagFile(conn, callback){
-        conn.serialize();
         conn.all( "select tID, tagContent, tagType from tags",
         [],         //no parameters
         (err,rows) => 

@@ -11,10 +11,14 @@ let conn = new sqlite3.Database("./priv/memedepository.sql");
 let alt = new sqlite3.Database("./priv/tagWriteTest.sql")
 
 
+
+
 function startServer(){
     let app = express();
-    
-    let TagPool = new tagging.TagPool("./priv/tagFile.txt");
+
+    //let TagPool = new tagging.TagPool("./priv/tagFile.txt");
+    //This intial tagging code has been deprecated, as its functions have been replaced by the DataBase code
+    DataBase.recreateDatabase(true);
     
     app.use(express.static("pub"));
 
@@ -95,42 +99,58 @@ function startServer(){
     });
     
     app.get("/tagaccess", (req,res) => {
-        TagPool.readTagFile(() => {
-            let string = "";
-            let reqType = req.query["reqType"];
-            if (reqType === undefined)
-            {
-                res.status(200).send("Nothing to see here!");
-            }
-            else if (reqType === "OFTags")
-            {
-                for (let i = 0; i < TagPool.getOfficialTags().length; i++)
+        let string = "";
+        let reqType = req.query["reqType"];
+        if (reqType === undefined)
+        {
+            res.status(200).send("Nothing to see here!");
+        }
+        else if (reqType === "OFTags")
+        {
+            DataBase.Database.getInstance().all("select tID, tagContent, tagType from tags", [], (e, rows) =>{
+                let string = "";
+                for(let i=0; i<rows.length; i++)
                 {
-                    string = string + String(TagPool.getOfficialTags()[i].getString());
+                    if (rows[i].tagType == 1)
+                    {
+                        string = string + "Tag: " + rows[i].tagContent + ", ID: " + rows[i].tID + ", Aliases: " + "None" + ", Prime Alias: "  + rows[i].tID + ", Total Uses: " + "0" + "<br>"
+                    }
                 }
                 res.status(200).send(string);
-            }
-            else if (reqType === "UFTags")
-            {
-                for (let i = 0; i < TagPool.getUnofficialTags().length; i++)
+            });  
+        }
+        else if (reqType === "UFTags")
+        {
+            DataBase.Database.getInstance().all("select tID, tagContent, tagType from tags", [], (e, rows) =>{
+                let string = "";
+                for(let i=0; i<rows.length; i++)
                 {
-                    string = string + String(TagPool.getUnofficialTags()[i].getString());
+                    if (rows[i].tagType == 2)
+                    {
+                        string = string + "Tag: " + rows[i].tagContent + ", ID: " + rows[i].tID + ", Aliases: " + "None" + ", Prime Alias: "  + rows[i].tID + ", Total Uses: " + "0" + "<br>"
+                    }
                 }
                 res.status(200).send(string);
-            }
-            else if (reqType === "ITags")
-            {
-                for (let i = 0; i < TagPool.getInternalTags().length; i++)
+            });
+        }
+        else if (reqType === "ITags")
+        {
+            DataBase.Database.getInstance().all("select tID, tagContent, tagType from tags", [], (e, rows) =>{
+                let string = "";
+                for(let i=0; i<rows.length; i++)
                 {
-                    string = string + String(TagPool.getInternalTags()[i].getString());
+                    if (rows[i].tagType == 3)
+                    {
+                        string = string + "Tag: " + rows[i].tagContent + ", ID: " + rows[i].tID + ", Aliases: " + "None" + ", Prime Alias: "  + rows[i].tID + ", Total Uses: " + "0" + "<br>"
+                    }
                 }
                 res.status(200).send(string);
-            }
-        });
+            });
+        }
     });
     
     app.get("/memetags", (req,res) => {
-        TagPool.readTagFile(() => {
+        /*TagPool.readTagFile(conn, () => {
             let memestring = req.query["newMeme"];
             if (memestring === undefined)
             {
@@ -151,11 +171,11 @@ function startServer(){
                 }
             }
             res.send();
-        });
+        });*/
     });
     
     app.get("/writetags", (req,res) => {
-        TagPool.readTagFile(() => {
+        /*TagPool.readTagFile(alt, () => {
             let tagstring = req.query["newTag"];
             if (tagstring === undefined)
             {
@@ -176,7 +196,7 @@ function startServer(){
                 res.status(200).send("That wasn't the format!");
                 }
             }
-        });
+        });*/
     });
     app.get("/topfivememesbylikes", (req,res) => {
         memeManager.giveMeTheTopFiveMemesByLikes( (L) => {
