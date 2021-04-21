@@ -1,4 +1,4 @@
-class UserVar3{
+class User{
     constructor(uname,passwd){
         this.username = uname;
         this.password = passwd;
@@ -6,4 +6,4 @@ class UserVar3{
         //Add code to store userID here?
     }
 }
-exports.UserVar3 = UserVar3;
+exports.User = User;

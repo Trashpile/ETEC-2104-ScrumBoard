@@ -1,3 +1,4 @@
+let User = require("./User");
 class AccountManager
 {
     constructor()
@@ -12,7 +13,7 @@ class AccountManager
     {
         if(this.accounts.has(email))
             return false;
-        let u = new User(email,password);
+        let u = new User.User(email,password);
         this.accounts.set(email,u);
         return true;
         //returns true if made, false if already exits.
