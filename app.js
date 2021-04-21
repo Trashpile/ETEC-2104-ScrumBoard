@@ -1,8 +1,8 @@
 "use strict";
 
 let express = require("express");
-let AccountManager = require("../Account-Related-Backend/Account-Manager");
-let UserVar3 = require("../Account-Related-Backend/User-Var3");
+let AccountManager = require("./Account-Related-Backend/Account-Manager");
+let UserVar3 = require("./Account-Related-Backend/User-Var3");
 const session = require("express-session");
 let fs = require("fs");
 let formidable = require("formidable");
