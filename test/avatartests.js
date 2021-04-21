@@ -67,7 +67,7 @@ describe("avatar tests", () => {
             assert.strictEqual(allData[1],80);  //P
             assert.strictEqual(allData[2],78);  //N
             assert.strictEqual(allData[3],71);  //G
-            fs.readFile("smile.png",null, (err,smiledata)=>{
+            fs.readFile("Avatars/smile.png",null, (err,smiledata)=>{
                 assert.equal( Buffer.compare(allData,smiledata), 0);
             });
             done();
@@ -80,7 +80,7 @@ describe("avatar tests", () => {
         getOrPost(url,undefined,(statusCode,serverdata)=>{
             assert.equal(statusCode, 200 );
             //we are registered and logged in at this point.
-            fs.readFile("sadcat.png", null, (err,sadcatdata) => {
+            fs.readFile("Avatars/sadcat.png", null, (err,sadcatdata) => {
                 let msg = "avatar=" + "data:image/png;base64,"+ encodeURIComponent(sadcatdata.toString("base64"));
                 getOrPost( "http://localhost:2021/setavatar",
                     msg, ( statusCode, serverdata) => {
@@ -91,7 +91,7 @@ describe("avatar tests", () => {
                             undefined, 
                             (statusCode,avdata)=>{
                                 assert.equal(statusCode, 200 );
-                                fs.readFile("sadcat.png",null, (err,catdata)=>{
+                                fs.readFile("Avatars/sadcat.png",null, (err,catdata)=>{
                                     assert.equal( Buffer.compare(avdata,catdata), 0);
                                     done();
                                 });

@@ -62,7 +62,7 @@ function startServer(){
             res.status(200);
             res.send(avdata);
         } else {
-            fs.readFile( "smile.png", null, (err,data) => {
+            fs.readFile( "Avatars/smile.png", null, (err,data) => {
                 if( err ){
                     console.log(err);
                     res.status(404).send("NOT FOUND!");
