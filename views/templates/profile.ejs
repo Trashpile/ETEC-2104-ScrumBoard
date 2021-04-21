@@ -26,6 +26,21 @@
     <h1><%= username %>'s profile page</h1>
 
     <h1> <%= bio %> </h1>
+
+    <button onclick="reportUserButtonClicked()">Report User</button>
+
+    <script>
+      function reportUserButtonClicked() {
+        var reasonForReport = prompt("Please enter your reason for reporting this user. Only serious issues should be reported...", "This user...");
+        
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const username = urlParams.get('name')
+        
+        window.location.href = "http://localhost:2021/reportuser?username="+username+"&report="+reasonForReport;
+      }
+    </script>
+
     <style>
         table {
           width:100%;
@@ -92,5 +107,7 @@
     <% } %>
 
 <% } %>
+
+
 
 </body></html>
