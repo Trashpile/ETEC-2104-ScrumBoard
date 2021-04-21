@@ -35,6 +35,7 @@ function check(req){
 
         app.set("view engine", "ejs");
     app.use( express.static( "pub" ) );
+    
     app.get("/", (req,res) => {
         res.redirect("/pub/index.html");
     });
@@ -68,6 +69,47 @@ function check(req){
             {username: name, currentUser: "Guest", privacy: false, bio: "This user does not have a bio", theme: "light"});       
         }
     });
+
+    app.get("/reportuser", (req,res) => {
+
+        if(req.session && req.session.username){
+            res.send("Report sent to Admin!");
+
+            let username = req.query["username"];
+            let report = req.query["report"];
+        
+            var nodemailer = require('nodemailer');
+
+            var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'oopse2021@gmail.com',
+                pass: 'oopse1234'
+            }
+            });
+
+            var mailOptions = {
+            from: 'oopse2021@gmail.com',
+            to: 'oopse2021@gmail.com',
+            subject: 'User Report for ' + username,
+            text: report
+            };
+
+            transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+            });
+        } else {
+            res.send("Not Logged In");
+        }
+
+    })
+
+        
+    // });
 
     app.get("/settings", (req,res) => {
         check(req);
