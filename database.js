@@ -30,6 +30,13 @@ class Database{
     {
         this.conn.all(sqlQuery, sqlParams, (e, rows) => {callback(e,rows); } );
     }
+    runALT( sqlQuery, sqlParams, callback ){
+        this.alt.run( sqlQuery, sqlParams, () => { callback(); } );
+    }
+    allALT(sqlQuery, sqlParams, callback)
+    {
+        this.alt.all(sqlQuery, sqlParams, (e, rows) => {callback(e,rows); } );
+    }
     //This is for user freindliness.  It's meant to abstract code so the user doesn't have to write SQL strings.
     //This function makes an SQL query to add something into the memes table, for example.
     addMeme(name, likes=0){

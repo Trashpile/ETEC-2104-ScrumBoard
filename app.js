@@ -33,7 +33,6 @@ let AccountManager = require("./AccountManager");
 let MemeManager = require("./MemeManager");
 let DataBase = require("./database");
 const session = require("express-session");
-let tagging = require("./tagging");
 let conn = new sqlite3.Database("./priv/memedepository.sql");
 let alt = new sqlite3.Database("./priv/tagWriteTest.sql")
 
@@ -41,8 +40,6 @@ let alt = new sqlite3.Database("./priv/tagWriteTest.sql")
 function startServer(){
     let app = express();
     
-    //let TagPool = new tagging.TagPool("./priv/tagFile.txt");
-    //This intial tagging code has been deprecated, as its functions have been replaced by the DataBase code
     DataBase.recreateDatabase(true);
     
     app.use(express.static("pub"));
@@ -124,7 +121,6 @@ function startServer(){
     });
     
     app.get("/tagaccess", (req,res) => {
-        let string = "";
         let reqType = req.query["reqType"];
         if (reqType === undefined)
         {
@@ -175,53 +171,81 @@ function startServer(){
     });
     
     app.get("/memetags", (req,res) => {
-        /*TagPool.readTagFile(conn, () => {
-            let memestring = req.query["newMeme"];
-            if (memestring === undefined)
+        let memestring = req.query["newMeme"];
+        if (memestring === undefined)
+        {
+            res.status(200).send("Nothing to see here!");
+        }
+        else
+        {
+            let memelist = memestring.split(";");
+            memelist[1] = memelist[1].split(",");
+            if (memelist.length === 2 && memelist[1].length === 5)
             {
-                res.status(200).send("Nothing to see here!");
+                DataBase.Database.getInstance().run("insert into memes (name, uid, tid, likes, avatar) values ($name, $uid, $tid, $likes, $avatar)", 
+                {$name: memelist[0], $uid: 0, $tid : 0, $likes: 0, $avatar: ""}, () =>{
+                    DataBase.Database.getInstance().all("select mid, name from memes where name=$name", {$name : memelist[0]}, (e, rows) =>{
+                        let memeID = rows[0].mid;
+                        let memeName = rows[0].name;
+                        DataBase.Database.getInstance().run( "insert into tags (tagContent, tagType) values ($tagContent, $tagType)",
+                        {$tagContent: memelist[1][0], $tagType: DataBase.tagType.Unofficial}, () =>{
+                            DataBase.Database.getInstance().all("select tID, tagContent from tags where tagContent=$tagContent", {$tagContent : memelist[1][0]}, (e, rows2) =>{
+                                let tagID = rows2[0].tID;
+                                let tagName = rows2[0].tagContent;
+                                DataBase.Database.getInstance().run( "insert into memesTagJunction (mID, tID) values ($mID, $tID)",
+                                {$mID: memeID, $tID: tagID}, () =>{
+                                    res.status(200).send(memeName + " is tagged with: " + tagName);
+                                });
+                            });
+                        });
+                    });
+                });
             }
             else
             {
-                let memelist = memestring.split(";");
-                memelist[1] = memelist[1].split(",");
-                if (memelist.length === 2 && memelist[1].length === 5)
-                {
-                    let newMeme = new tagging.Meme(memelist[0], [new tagging.Tag(memelist[1][0], memelist[1][1], memelist[1][2], memelist[1][3], memelist[1][4])], []);
-                    res.status(200).send(newMeme.getName() + " is tagged with: " + newMeme.getExternalTags()[0].getTagENG());
-                }
-                else
-                {
-                    res.status(200).send("That wasn't the format!");
-                }
+                res.status(200).send("That wasn't the format!");
             }
-            res.send();
-        });*/
+        }
     });
     
     app.get("/writetags", (req,res) => {
-        /*TagPool.readTagFile(alt, () => {
-            let tagstring = req.query["newTag"];
-            if (tagstring === undefined)
+        let tagstring = req.query["newTag"];
+        if (tagstring === undefined)
+        {
+            res.status(200).send("Nothing to see here!");
+        }
+        else
+        {
+            let taglist = tagstring.split(",");
+            if (taglist.length === 2)
             {
-                res.status(200).send("Nothing to see here!");
+                if (taglist[1] === DataBase.tagType.Official)
+                {
+                    DataBase.Database.getInstance().runALT( "insert into tags (tagContent, tagType) values ($tagContent, $tagType)",
+                    {$tagContent: taglist[0], $tagType: DataBase.tagType.Official}, () =>{
+                        res.status(200).send("Tag has been written.");
+                    });
+                }
+                else if (tagList[1] == DataBase.tagType.Unofficial)
+                {
+                    DataBase.Database.getInstance().runALT( "insert into tags (tagContent, tagType) values ($tagContent, $tagType)",
+                    {$tagContent: taglist[0], $tagType: DataBase.tagType.Unofficial}, () =>{
+                        res.status(200).send("Tag has been written.");
+                    });
+                }
+                else if (tagList[1] == DataBase.tagType.Internal)
+                {
+                    DataBase.Database.getInstance().runALT( "insert into tags (tagContent, tagType) values ($tagContent, $tagType)",
+                    {$tagContent: taglist[0], $tagType: DataBase.tagType.Internal}, () =>{
+                        res.status(200).send("Tag has been written.");
+                    });
+                }
             }
             else
             {
-                let taglist = tagstring.split(",");
-                if (taglist.length === 5)
-                {
-                let newTag = new tagging.Tag(taglist[0], taglist[1], taglist[2], taglist[3], taglist[4]);
-                TagPool.addUnofficialTag(newTag);
-                TagPool.writeTagFile(alt);
-                res.status(200).send("Tag has been written.");
-                }
-                else
-                {
-                res.status(200).send("That wasn't the format!");
-                }
+            res.status(200).send("That wasn't the format!");
             }
-        });*/
+        }
     });
     app.get("/topfivememesbylikes", (req,res) => {
         memeManager.giveMeTheTopFiveMemesByLikes( (L) => {
