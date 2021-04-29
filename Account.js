@@ -68,7 +68,6 @@ class Account
             this.requestsSent.set(uID, other);
             other.requestsReceived.set(this.id, this);
             return true;
-
         }
     }
 
@@ -181,6 +180,11 @@ class Account
             other.requestsSent.delete(this.id);
             return true;
         }
+    }
+
+    logRequestsSent()
+    {
+        console.log(this.requestsSent);
     }
 }
 
