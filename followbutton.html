@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<HTML>
+    <HEAD>
+        <meta charset=utf8>
+        <script src="Account.js"></script>
+        <script src="FriendButton.js"></script>
+    </HEAD>
+    <BODY>
+        <div>
+            <select id="loginSelect"><option>Select Login Username</option></select>
+            <script>load_accounts("loginSelect")</script>
+        </div>
+
+
+        <div>
+            <input onclick="login_logout()" type="button" value="Login" id="loginButton"></input>
+        </div>
+
+
+        <div>
+            <select id="pageSelect" onchange="goto_page()"><option>Select Account Page</option></select>
+            <script>load_accounts("pageSelect")</script>
+        </div>
+
+
+        <div>
+            <input onclick="send_retract()" type="button" value="Send Friend Request" id="sendButton"></input>
+        </div>
+            
+
+        <div>
+            <select onchange="check_request_selection()" id="requestsReceived"><option>Friend Requests</option></select>
+        </div>
+
+
+        <div>
+            <input onclick="acceptRequest(true)" type="button" value="Accept Friend Request" id="acceptButton"></input>
+        </div>
+
+
+        <div>
+            <input onclick="acceptRequest(false)" type="button" value="Ignore Friend Request" id="ignoreButton"></input>
+        </div>
+
+
+        <div>
+            <input onclick="acceptRequestOnPage(true)" type="button" value="Accept Friend Request" id="acceptButtonOnPage"></input>
+        </div>
+
+
+        <div>
+            <input onclick="acceptRequestOnPage(false)" type="button" value="Ignore Friend Request" id="ignoreButtonOnPage"></input>
+        </div>
+
+
+        <div>
+            <input onclick="deleteFriend()" type="button" value="Remove Friend" id="removeButton"></input>
+        </div>
+
+
+        <script>
+            hide("pageSelect");
+            hide("sendButton");
+            hide("requestsReceived");
+            hide("acceptButton");
+            hide("ignoreButton");
+            hide("acceptButtonOnPage");
+            hide("ignoreButtonOnPage");
+            hide("removeButton");
+        </script>
+    </BODY>
+</HTML>
