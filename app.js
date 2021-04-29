@@ -167,6 +167,12 @@ function check(req){
         }
     });
 
+    /*app.get("/report", (req, res) =>{
+        if(req.session && req.session.username){
+            let
+        }
+    })*/
+
     // Reserved /upload
     upload_meme.uploadMemeMain(app);
    

@@ -9,9 +9,11 @@ class report_form
         this.body = body;
     }
 
-    
+
 
 
 
 
 }
+
+exports.report_form = report_form;
