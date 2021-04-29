@@ -1,0 +1,8 @@
+/*Style Sheet for the profile page*/
+table{
+    margin: 12%;
+}
+
+table tr th{
+    text-align: center;
+}
