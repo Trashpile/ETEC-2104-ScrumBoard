@@ -1,12 +1,15 @@
+"use strict"
+
 let report_form = index.html;
 
 class report_form
 {
-    constructor(uID,reason,body)
+    constructor(uID,reason,body,rID)
     {
         this.sender_ID = uID;
         this.reason = reason;
         this.body = body;
+        this.report_ID=rID;
     }
 
 
