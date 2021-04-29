@@ -1,4 +1,4 @@
-let index = index.html;
+//let index = index.html;
 let sqlite3 = require("sqlite3").verbose();
 
 function main(){
@@ -21,8 +21,8 @@ function main(){
         (e) => { console.log("insert bob error:",e); } 
     );
     
-    let username = "CrashBandicoot4";
-    let password = "WrathOfTFB";
+    username = "CrashBandicoot4";
+    password = "WrathOfTFB";
     conn.run( "insert into accountinfo (username, password) values ($name, $passwd)",
         { $name: username, $passwd: password },
         (e) => { console.log("insert bob error:",e); } 

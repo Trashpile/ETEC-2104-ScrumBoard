@@ -1,4 +1,4 @@
-let index = index.html;
+//let index = index.html;
 let sqlite3 = require("sqlite3").verbose();
 
 function main(){
@@ -27,11 +27,11 @@ function main(){
         (e) => { console.log("insert bob error:",e); } 
     );
     
-    let username = "Jumanji";
-    let rank = "General";
-    let daysloggedin = 23;
-    let suggestiontype = "Other";
-    let suggestion = "None";
+    username = "Jumanji";
+    rank = "General";
+    daysloggedin = 23;
+    suggestiontype = "Other";
+    suggestion = "None";
     conn.run( "insert into suggestions (username, rank, daysloggedin, suggestiontype, suggestion) values ($name, $rank, $loggedin, $type, $suggest)",
         { $name: username, $rank: rank, $loggedin: daysloggedin, $type: suggestiontype, $suggest: suggestion },
         (e) => { console.log("insert bob error:",e); } 
