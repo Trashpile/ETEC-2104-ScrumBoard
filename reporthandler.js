@@ -1,7 +1,7 @@
 "use strict"
 
 
-let report_form = require("./report")
+let report_form = require("report")
 
 class report_handler
 {

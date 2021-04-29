@@ -5,6 +5,7 @@ let AccountManager = require("./AccountManager");
 const session = require("express-session");
 let fs = require("fs");
 let formidable = require("formidable");
+let report_handler=require("./reporthandler")
 
 let upload_meme = require("./pub/uploadMeme/uploadMemeMain.js");
 
@@ -31,6 +32,7 @@ function check(req){
     }
       
 }
+    let reportHandler = new report_handler.report_handler();
     let accountManager = new AccountManager.AccountManager();
 
         app.set("view engine", "ejs");
@@ -167,11 +169,18 @@ function check(req){
         }
     });
 
-    /*app.get("/report", (req, res) =>{
+    app.get("/report", (req, res) =>{
         if(req.session && req.session.username){
-            let
+            req.session.addtional = req.query["addtional"];
+            req.session.reason= req.query["Reason"];
+            let uID = req.session.uID;
+            let reason = req.session.reason;
+            let body = req.session.addtional;
+            let new_report = reportHandler.generate_report(uID, reason, body);
         }
-    })*/
+        else
+            res.status(401).send("Must be logged in")
+    });
 
     // Reserved /upload
     upload_meme.uploadMemeMain(app);
