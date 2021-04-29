@@ -1,4 +1,5 @@
 # ETEC-2104-ScrumBoard
+
 4/12
 Claimed by Amber Howell
 P.H. - "As a memer with specific taste, I'd like to customize the webpage's color theme."
