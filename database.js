@@ -48,9 +48,9 @@ class Database{
         );
     }
 
-    addFavorite(userID, memeID){
-        this.conn.run( "insert into favorites (userID, memeID) values ($userID, $memeID)", 
-        { $userID : userID, $memeID : memeID },
+    addFavorite(uID, mID){
+        this.conn.run( "insert into favorites (uID, mID) values ($uID, $mID)", 
+        { $uID : uID, $mID : mID },
         (e) => {
             console.log("error is:", e);
         });
@@ -220,14 +220,14 @@ function main(reset)
             }
         );
 
-        conn.run( "insert into favorites (userID, memeID) values ($userID, $memeID)",
+        conn.run( "insert into favorites (uID, mID) values ($uID, $mID)",
             { $userID: 1, $memeID: 1 }, //Parameters - use the $ sign in .run()
             (e) => {  
                 console.log("error is:",e) 
             }
         );
 
-        conn.run( "insert into favorites (userID, memeID) values ($userID, $memeID)",
+        conn.run( "insert into favorites (uID, mID) values ($uID, $mID)",
             { $userID: 1, $memeID: 2 }, //Parameters - use the $ sign in .run()
             (e) => {  
                 console.log("error is:",e) 

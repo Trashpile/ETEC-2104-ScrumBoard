@@ -166,11 +166,11 @@ class MemeManager {
         {},
         (e,rows) =>
         {
-            for(let i =0; i<rows.length(); ++i)
+            for(let i =0; i<rows.length; ++i)
             {
-                L.push(rows[i].memeID + " " + rows[i].userID);
+                L.push(rows[i].mID + " " + rows[i].uID);
             }
-           callback();
+           callback(L);
         });
     }
 }
