@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf8>
+<link rel="stylesheet" href="light.css">
+
+
+</head><body>
+
+<%- include("header"); %>
+This is the home page!
+Click on your profile picture in the top right to go to your profile page, or search for a specific user's profile using the search bar!
+<form action="/profile">
+    <label for="search"></label><br>
+    <input type="text" id="profilesearch" name="name" value="Username"style="height:20px; width:80;"><br>
+    <div class="form-group">
+        <input type="submit" value="Search">
+    </div></form>
+
+    <%if(theme=="dark") { %>
+        <script>
+        var element = document.getElementsByTagName('link')[0];
+        element.setAttribute('href', 'dark.css');</script>
+    <% } else { %>
+      <script>
+      var element = document.getElementsByTagName('link')[0];
+      element.setAttribute('href', 'light.css');</script>
+    <% } %>
+</body></html>
