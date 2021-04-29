@@ -103,21 +103,9 @@ function startServer(){
     })
 
     app.get("/favorites", (req,res) => {
-        if(req.session && req.session.username){
-            let currentUser = req.session.username;
-            res.send(currentUser + "'s Favorites Page!");
-            let index = 0;
-            while(!(memeManager.getFavorite(index) == null))
-            {
-                if(memeManager.getFavorite(index) != 0)
-                {
-                    res.send(memeManager.getFavorite(index));
-                }
-                index++;
-            }
-        } else {
-            res.send("not logged in");
-        }
+        memeManager.getFavorites((L)=>{
+            res.send(L);
+        });
     });
     
     app.get("/tagaccess", (req,res) => {

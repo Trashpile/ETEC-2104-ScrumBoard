@@ -1,6 +1,7 @@
 "use strict";
 
 let sqlite3 = require("sqlite3").verbose();
+const { Database } = require("sqlite3");
 let DataBase = require("./database");
 
 const sortType = {
@@ -157,6 +158,19 @@ class MemeManager {
             }
             //conn.close();
             callback(L); //Sends a list of the top five memes, to app.js ideally...
+        });
+    }
+
+    getFavorites( callback ) {
+        Database.Database.getInstance().all("select * from favorites",
+        {},
+        (e,rows) =>
+        {
+            for(let i =0; i<rows.length(); ++i)
+            {
+                L.push(rows[i].memeID + " " + rows[i].userID);
+            }
+           callback();
         });
     }
 }

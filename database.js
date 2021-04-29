@@ -47,6 +47,14 @@ class Database{
             }
         );
     }
+
+    addFavorite(userID, memeID){
+        this.conn.run( "insert into favorites (userID, memeID) values ($userID, $memeID)", 
+        { $userID : userID, $memeID : memeID },
+        (e) => {
+            console.log("error is:", e);
+        });
+    }
 }
 
 
@@ -211,12 +219,28 @@ function main(reset)
                 console.log("error is:",e) 
             }
         );
+
+        conn.run( "insert into favorites (userID, memeID) values ($userID, $memeID)",
+            { $userID: 1, $memeID: 1 }, //Parameters - use the $ sign in .run()
+            (e) => {  
+                console.log("error is:",e) 
+            }
+        );
+
+        conn.run( "insert into favorites (userID, memeID) values ($userID, $memeID)",
+            { $userID: 1, $memeID: 2 }, //Parameters - use the $ sign in .run()
+            (e) => {  
+                console.log("error is:",e) 
+            }
+        );
         //Example of refactored meme call!
         //Should add a meme with 0 likes called Boring cat, at mid 4.
         Database.getInstance().addMeme("Boring cat"); //It would be Database.Database.getInstance() outside this file!
         Database.getInstance().addMeme("Rad cat", 40);
         Database.getInstance().addMeme("Mad cat");
-
+        Database.getInstance().addFavorite(1,1);
+        Database.getInstance().addFavorite(1,2);
+        Database.getInstance().addFavorite(1,3);
 
         //This should probably be later removed; Database manipulation should happen elsewhere. This file just creates it.
         conn.run( "insert into users (name, password) values ($name, $passwd)",
