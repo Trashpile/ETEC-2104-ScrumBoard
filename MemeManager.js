@@ -145,6 +145,7 @@ class MemeManager {
     //Will refactor soon...
     //Returns a List in the callback of the top 5 memes in the database.
     giveMeTheTopFiveMemesByLikes( callback ) {
+        //DataBase.Database.getInstance().addMeme("Mad cat");
         DataBase.Database.getInstance().all( "select name, likes from memes order by likes desc", //Bulds a dictionary out of the memes
         {},
         (e,rows) => 
@@ -162,15 +163,19 @@ class MemeManager {
     }
 
     getFavorites( callback ) {
-        Database.Database.getInstance().all("select * from favorites",
+        DataBase.Database.getInstance().all("select * from favorites",
         {},
         (e,rows) =>
         {
+            console.log(rows);
+            let L = [];
             for(let i =0; i<rows.length; ++i)
             {
+                console.log("row",i," userID:",rows[i].uID, " memeID:", rows[i].mID);
                 L.push(rows[i].mID + " " + rows[i].uID);
             }
-           callback(L);
+            console.log("whats up dude");
+            callback(L);
         });
     }
 }

@@ -40,7 +40,10 @@ let alt = new sqlite3.Database("./priv/tagWriteTest.sql")
 function startServer(){
     let app = express();
     
-    DataBase.recreateDatabase(true);
+    //This is a big no no, do not do!
+    //anytime that you want to recreate the database launch it from your configurations.
+    //This is because the database launches asyncronouslyalfasdkf and it causes errors
+    //DataBase.recreateDatabase(true);
     
     app.use(express.static("pub"));
 

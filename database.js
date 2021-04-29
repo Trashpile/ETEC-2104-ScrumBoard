@@ -11,7 +11,7 @@ class Database{
     constructor(){
         this.conn = new sqlite3.Database("./priv/memedepository.sql");
         this.alt = new sqlite3.Database("./priv/tagWriteTest.sql");
-        conn.serialize();
+        this.conn.serialize();
     }
     static getInstance(){
         if(Database.instance == null)
@@ -121,6 +121,12 @@ function main(reset)
                 console.log("error is:",e) //Runs if err, null if not
             }
         );
+        conn.run( `drop table favorites`, 
+            {},
+            (e) => {
+                console.log("favorites is:", e)
+            }
+        );
         alt.run( `drop table tags`,
             {}, //Initial parameters. Empty for now.
             (e) => {
@@ -154,8 +160,8 @@ function main(reset)
 
         //junction table from users to memes for favorites
         conn.run( `create table favorites(
-            mid integer foreign key,
-            uid integer foreign key)`,
+            mID integer,
+            uID integer)`,
         {}, 
         (e) => {
             console.log("error is:",e) 
@@ -220,19 +226,20 @@ function main(reset)
             }
         );
 
-        conn.run( "insert into favorites (uID, mID) values ($uID, $mID)",
-            { $userID: 1, $memeID: 1 }, //Parameters - use the $ sign in .run()
-            (e) => {  
-                console.log("error is:",e) 
-            }
-        );
+        // conn.run( "insert into favorites (uID, mID) values ($uID, $mID)",
+        //     { $uID: 1, $mID: 1 }, //Parameters - use the $ sign in .run()
+        //     (e) => {  
+        //         console.log("error is:",e) 
+        //     }
+        // );
 
-        conn.run( "insert into favorites (uID, mID) values ($uID, $mID)",
-            { $userID: 1, $memeID: 2 }, //Parameters - use the $ sign in .run()
-            (e) => {  
-                console.log("error is:",e) 
-            }
-        );
+        // conn.run( "insert into favorites (uID, mID) values ($uID, $mID)",
+        //     { $uID: 1, $mID: 2 }, //Parameters - use the $ sign in .run()
+        //     (e) => {  
+        //          console.log("error is:",e) 
+        //     }
+        // );
+
         //Example of refactored meme call!
         //Should add a meme with 0 likes called Boring cat, at mid 4.
         Database.getInstance().addMeme("Boring cat"); //It would be Database.Database.getInstance() outside this file!
@@ -240,7 +247,6 @@ function main(reset)
         Database.getInstance().addMeme("Mad cat");
         Database.getInstance().addFavorite(1,1);
         Database.getInstance().addFavorite(1,2);
-        Database.getInstance().addFavorite(1,3);
 
         //This should probably be later removed; Database manipulation should happen elsewhere. This file just creates it.
         conn.run( "insert into users (name, password) values ($name, $passwd)",
