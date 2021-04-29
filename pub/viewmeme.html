@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf8>
+        <link rel="stylesheet" href="jquery-ui.min.css">
+        <script src="jquery-3.6.0.min.js"></script>
+        <script src="jquery-ui.min.js"></script>
+        <script src="viewmeme.js"></script>
+    </head>
+<body>
+
+<script>
+    // https://www.w3schools.com/howto/howto_js_copy_clipboard.asp
+    function copyFunction() {
+        var copyText = document.getElementById("input");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+
+        window.alert("URL has been copied to your clipboard.")
+    }
+</script>
+
+<div id="myform">
+    
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf8>
+<link rel="stylesheet" href="light.css">
+
+<body>
+    
+<%- include("header"); %>
+This is the login page.
+<form action="/register">
+    <label for="Username"></label><br>
+    <input type="text" id="currentUser" name="username" value="Username"style="height:20px; width:80;"><br>
+    <div class="form-group">
+    <label for="Password"></label><br>
+    <input type="text" id="registerpass" name="password" value="Password"style="height:20px; width:80;"><br>
+    <div class="form-group">
+    <input type="submit" value="Submit">
+    <%if(theme=="dark") { %>
+        <script>
+        var element = document.getElementsByTagName('link')[0];
+        element.setAttribute('href', 'dark.css');</script>
+    <% } else { %>
+      <script>
+      var element = document.getElementsByTagName('link')[0];
+      element.setAttribute('href', 'light.css');</script>
+    <% } %>
+</body></html>
