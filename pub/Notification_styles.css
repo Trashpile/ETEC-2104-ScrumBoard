@@ -1,0 +1,9 @@
+/*Style Sheet for the notification page*/
+table{
+    margin: 15%
+}
+
+table tr th{
+    text-align: center;
+    background-color: aqua;
+}
