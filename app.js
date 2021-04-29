@@ -2,11 +2,13 @@
 
 let express = require("express");
 let AccountManager = require("./AccountManager");
+let MemeManager = require("./MemeManager").MemeManager;
 const session = require("express-session");
 let fs = require("fs");
 let formidable = require("formidable");
 
 let upload_meme = require("./pub/uploadMeme/uploadMemeMain.js");
+let MM = MemeManager.getInstance("main.sql");
 
 
 function startServer(){
@@ -112,11 +114,13 @@ function check(req){
     // });
 
     app.get("/settings", (req,res) => {
+        // This was actually messing up the session info
+        // Don't know if it had some other purpose
         check(req);
-        req.session.username = req.query["currentUser"];
+        /*req.session.username = req.query["currentUser"];
         req.session.privacy = req.query["privacy"];
         req.session.bio = req.query["bio"];
-        req.session.theme = req.query["theme"];
+        req.session.theme = req.query["theme"];*/
 
         let currentUser = req.session.username;
         let privacy = req.session.privacy;
@@ -165,6 +169,14 @@ function check(req){
         } else {
             res.send("");
         }
+    });
+    app.get("/removeAccount", (req,res) => {
+        let currentUser = req.session.username;
+        let uid = accountManager.getID(currentUser);
+        accountManager.removeAccount(currentUser);
+        MM.deleteMemesByUserID(uid, () => {
+            res.send("Removed " + currentUser);
+        })
     });
 
     // Reserved /upload
