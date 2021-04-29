@@ -1,53 +1,16 @@
+const { Account } = require("./Account");
 
-class Account
-{
-    constructor(uname, uID, isLoggedIn)
-    {
+class User{
+    constructor(uname,passwd,uid){
         this.username = uname;
-        this.id = uID;
-        this.isLoggedIn = isLoggedIn;
-        this.currentStatus = "";
-        
-    }
-
-    EnterStatus(uString){
-        var str_length = uString.length;
-        if (str_length <= 0){
-            //No string inputted
-            return false;
-        }
-
-        else if (str_length > 40){
-            // More than 40 Characters
-            return false;
-        }
-
-        else if (this.isLoggedIn === false){
-            //Not logged in
-            return false;
-        }
-
-        else{
-            //Logged in, less than 40 characters, and a viable string
-            this.currentStatus = uString;
-            return true;
-        }
-    }
-
-    DeleteStatus(){
-        this.currentStatus = "";
-        if (this.currentStatus !== ""){
-            //Check if current status is cleared
-            return false;
-        }
-        else{
-            return true;
-        }
-
+        this.password = passwd;
+        this.uid = uid;
+        this.avatar = null;
     }
 }
-
 class AccountManager{
+    static id = 0;
+
     constructor(){
         //this is like a Python {} dictionary
         //or like a C++ std::map<>
@@ -58,9 +21,22 @@ class AccountManager{
     addAccount(email,password){
         if(this.accounts.has(email))
             return false;
-        let u = new Account(email,password);
+        let u = new User(email,password,AccountManager.id);
         this.accounts.set(email,u);
+        AccountManager.id += 1;
         return true;
+    }
+    removeAccount(email){
+        if(this.accounts.has(email)){
+            this.accounts.delete(email);
+            return 1;
+        }
+        return -1;
+    }
+    getID(email){
+        if(this.accounts.has(email))
+            return this.accounts.get(email).uid;
+        return -1;
     }
     getAvatar(email){
         return this.accounts.get(email).avatar;

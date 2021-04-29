@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf8>
+<link rel="stylesheet" href="light.css">
+<script src="jquery-3.6.0.min.js"></script>
+<script src="jquery-ui.min.js"></script>
+<script src="removeAccount.js"></script>
+
+</head>
+<body>
+
+  <style>
+    div.popUp {
+      background-color: darkgrey;
+      position: fixed;
+      left: 40%;
+      top: 40%;
+    }
+  </style>
+    
+<%- include("header"); %>
+This is your settings page.
+<form action="/settings">
+    <label for="Username">Change your username.</label><br>
+    <input type="text" id="currentUser" name="currentUser" value="<%= currentUser %>"style="height:20px; width:80;"><br>
+    <div class="form-group">
+
+    <label for="Privacy">Change your privacy settings (private is true or false).</label><br>
+    <input type="text" id="privacy" name="privacy" value="<%= privacy %>"style="height:20px; width:80;"><br></div>
+    <div class="form-group">
+    
+    <label for="Bio">Enter profile description.</label><br>
+    <input type="text" id="bio" name="bio" value="<%= bio %>"style="height:20px; width:80;"></div>
+    <div class="form-group">
+
+    Select theme<br>
+    <input type="radio" id="light" name="theme" value="light">Light theme</div>
+    <label for="light"></label>
+    <input type="radio" id="dark" name="theme" value="dark">Dark theme</div>
+    <label for="dark"></label><br>
+
+
+    <div class="form-group">
+    
+    <input type="submit" value="Submit"></div></form>
+
+    <%if(theme=="dark") { %>
+        <script>
+        var element = document.getElementsByTagName('link')[0];
+        element.setAttribute('href', 'dark.css');</script>
+    <% } else { %>
+      <script>
+      var element = document.getElementsByTagName('link')[0];
+      element.setAttribute('href', 'light.css');</script>
+    <% } %>
+
+    <div id="removeCheck" class="popUp" hidden>
+      Are you sure you want to delete your account and<br>
+      ALL of your activity on this site? You cannot undo this!
+      <br>
+      <button onclick="hidePopUp()">Cancel</button>
+    </div>
+    <br><br><br>
+    <button onclick="showPopUp()">Remove Account</button>
+
+    <script>
+      function showPopUp(){
+        document.getElementById("removeCheck").removeAttribute("hidden");
+      }
+      function hidePopUp(){
+        document.getElementById("removeCheck").setAttribute("hidden",true);
+      }
+    </script>
+
+</body></html>

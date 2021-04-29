@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf8>
+<script src="bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="light.css">
+<link rel="stylesheet" href="jquery-ui.min.css">
+
+<script src="jquery-ui.min.js"></script>
+
+</head><body>
+    
+<%- include("header"); %>
+
+<% if(username == undefined) {%>
+    Please enter a valid username.
+
+<% } else if(privacy==true) { %>
+    This page is private.
+    <%= username %>'s profile page
+    
+<% } else { %>
+    <p>Current User: <%= currentUser %></p>
+
+    <h1><%= username %>'s profile page</h1>
+
+    <h1> <%= bio %> </h1>
+
+    <button onclick="reportUserButtonClicked()">Report User</button>
+
+    <script>
+      function reportUserButtonClicked() {
+        var reasonForReport = prompt("Please enter your reason for reporting this user. Only serious issues should be reported...", "This user...");
+        
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const username = urlParams.get('name')
+        
+        window.location.href = "http://localhost:2021/reportuser?username="+username+"&report="+reasonForReport;
+      }
+    </script>
+
+    <style>
+        table {
+          width:100%;
+        }
+        table, th, td {
+          border-collapse: collapse;
+          background-color: cadetblue;
+        
+        }
+        tr, td{
+            border: 1px solid black;
+          padding: 50px;
+          text-align: center;
+
+          background-color: darkslategray;
+          color: white;
+        }
+        
+    </style>
+      
+      <body>
+      <table>
+        <tr>
+          <th>Post history</th>
+          <th>Comments</th> 
+          <th>Liked memes</th>
+        </tr>
+        <tr>
+          <td>Post</td>
+          <td>Comment</td>
+          <td>Liked meme</td>
+        </tr>
+        <tr>
+          <td>Post</td>
+          <td>Comment</td>
+          <td>Liked meme</td>
+        </tr>
+        <tr>
+          <td>Post</td>
+          <td>Comment</td>
+          <td>Liked meme</td>
+        </tr>
+        <tr>
+            <td>Post</td>
+            <td>Comment</td>
+            <td>Liked meme</td>
+        </tr>
+            <tr>
+            <td>Post</td>
+            <td>Comment</td>
+            <td>Liked meme</td>
+        </tr>
+      </table>
+      
+      </body>
+    <%if(theme=="dark") { %>
+        <script>
+        var element = document.getElementsByTagName('link')[0];
+        element.setAttribute('href', 'dark.css');</script>
+    <% } else { %>
+      <script>
+      var element = document.getElementsByTagName('link')[0];
+      element.setAttribute('href', 'light.css');</script>
+    <% } %>
+
+<% } %>
+
+
+
+</body></html>
