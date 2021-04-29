@@ -8,6 +8,7 @@ let fs = require("fs");
 let formidable = require("formidable");
 
 let upload_meme = require("./pub/uploadMeme/uploadMemeMain.js");
+let edit_hierarchy = require("./pub/editHierarchy/editHierarchyMain.js");
 let MM = MemeManager.getInstance("main.sql");
 
 
@@ -181,6 +182,9 @@ function check(req){
 
     // Reserved /upload
     upload_meme.uploadMemeMain(app);
+
+    // Reserved /editHierarchy
+    edit_hierarchy.editHierarchyMain(app, accountManager);
    
     let srv = app.listen(2021);
     return srv;
