@@ -7,7 +7,7 @@
         {
             "args": [
                 "-u",
-                "tdd",
+                "bdd",
                 "--timeout",
                 "999999",
                 "--colors",
@@ -23,22 +23,13 @@
             "type": "pwa-node"
         },
         {
-            "args": [
-                "-u",
-                "tdd",
-                "--timeout",
-                "999999",
-                "--colors",
-                "${workspaceFolder}/test"
-            ],
-            "internalConsoleOptions": "openOnSessionStart",
-            "name": "Mocha Tests",
-            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "type": "node",
             "request": "launch",
+            "name": "Launch Program",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "type": "pwa-node"
+            "program": "${workspaceFolder}\\app.js"
         }
     ]
 }

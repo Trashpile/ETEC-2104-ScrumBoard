@@ -89,5 +89,4 @@ describe("Password tests", () => {
             done();
         })
     });
-
 });
