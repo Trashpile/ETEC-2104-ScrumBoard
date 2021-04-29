@@ -6,11 +6,12 @@ class User{
         this.password = passwd;
         this.uid = uid;
         this.avatar = null;
+        this.visitorList = [];
+        this.numVisitors = 0;
     }
 }
 class AccountManager{
     static id = 0;
-
     constructor(){
         //this is like a Python {} dictionary
         //or like a C++ std::map<>
@@ -43,6 +44,10 @@ class AccountManager{
     }
     setAvatar(email, newavatar){
         return this.accounts.get(email).avatar = newavatar;
+    }
+    addVisitor(userPage, visitor){
+        this.accounts.get(userPage).visitorList.push(visitor);
+        return this.accounts.get(userPage).visitorList;
     }
 }
 

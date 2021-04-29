@@ -8,7 +8,29 @@
 <link rel="stylesheet" href="jquery-ui.min.css">
 
 <script src="jquery-ui.min.js"></script>
+<script>
+  $(document).ready(function(){  
 
+      $("#Visitors").click(function(){     
+          $("#Visitors2").show("slow");
+      });
+      $("#Close").click(function(){     
+          $("#Visitors2").hide("slow");
+      });
+  });
+
+</script>
+<style>
+  #Visitors2 {
+    width: 100%;
+    padding: 50px 0;
+    text-align: center;
+    background-color: darkslategray;
+    color: white;
+    margin-top: 20px;
+    display:none;
+  }
+  </style>
 </head><body>
     
 <%- include("header"); %>
@@ -26,6 +48,16 @@
     <h1><%= username %>'s profile page</h1>
 
     <h1> <%= bio %> </h1>
+
+    <button id="Visitors"> Visitors</button>
+    <div class="form-group" style="width: 300px">
+        <div id = "Visitors2">
+          Visitors:
+          <%= vList %>
+          <button id="Close"> Close</button>
+        </div>
+
+    </div>
 
     <button onclick="reportUserButtonClicked()">Report User</button>
 

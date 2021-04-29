@@ -59,16 +59,23 @@ function check(req){
 
     app.get("/profile", (req,res) => {
         let name = req.query["name"];
+        let vList = [];
         if(req!=undefined)
         {
             let currentUser = req.session.username;
             check(req)
+            if(name !== currentUser){
+                accountManager.addVisitor(name, currentUser);
+                vList = accountManager.accounts.get(name).visitorList;
+            }//new
             res.render( "templates/profile.ejs",
-            {username: name, currentUser: currentUser, privacy: req.session.privacy, bio: req.session.bio, theme: req.session.theme});       
+            {username: name, currentUser: currentUser, privacy: req.session.privacy, bio: req.session.bio, theme: req.session.theme,vList:vList});       
         }
         else{
+            accountManager.addVisitor(name, "Guest");
+            vList = accountManager.accounts.get(name).visitorList;
             res.render( "templates/profile.ejs",
-            {username: name, currentUser: "Guest", privacy: false, bio: "This user does not have a bio", theme: "light"});       
+            {username: name, currentUser: "Guest", privacy: false, bio: "This user does not have a bio", theme: "light", vList:vList});       
         }
     });
 
@@ -153,7 +160,7 @@ function check(req){
                 req.session.theme = "light";
                 let theme = req.session.theme;
                 res.render( "templates/profile.ejs",
-                {username: uname, currentUser: uname, privacy: privacy, bio: bio, theme:theme});
+                {username: uname, currentUser: uname, privacy: privacy, bio: bio, theme:theme, vList: "none"});
                 return;
 
             });
