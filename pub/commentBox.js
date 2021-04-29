@@ -35,7 +35,6 @@ function postNewComment() {
 }
 
 function postReply(comment) {
-    // CURRENTLY UNFINISHED
     let newText = document.getElementById("commentText").value;
     let currentDate = new Date();
     let commentDate = "".concat(String(currentDate.getMonth()), "/", String(currentDate.getDate()), "/", String(currentDate.getFullYear()));
@@ -46,16 +45,8 @@ function postReply(comment) {
     addHTMLbuttonElement(x);
 }
 
-
-//function refreshComments() {
-//    for (var i = 0; i < memeCommentArray.length; i++)
-//    {
-//         addHTMLtextElement(memeCommentArray[i]);
-//         for (var j = 0; j < memeCommentArray[i].replyArray.length; j++)
-//         {
-//            addHTMLtextElement(memeCommentArray[i].replyArray[j]);
-//         }
-//    }
+//function editComment(comment) {
+    
 //}
 
 function addHTMLtextElement(comment) {
@@ -92,7 +83,7 @@ function addHTMLbuttonElement(comment) {
     const newButton = document.createElement("button");
     newButton.setAttribute("id", idPrefix.concat(comment.commentID));
     newButton.textContent = "Reply";
-    newButton.onClick = "postReply(comment)";
+    newButton.onclick = function(){postReply(comment)};
 
     const currentPre = document.getElementById("CID_".concat(comment.commentID));
     insertAfter(newButton, currentPre); 
