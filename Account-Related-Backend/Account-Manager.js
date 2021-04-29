@@ -38,6 +38,7 @@ class AccountManager
     {
         return this.accounts.get(email).avatar = newavatar;//sets avatar of given email
     }
+    //Account Manager for the system
 }
 
 exports.AccountManager = AccountManager;

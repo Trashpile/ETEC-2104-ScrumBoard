@@ -6,4 +6,5 @@ class User{
         //Add code to store userID here?
     }
 }
+//User class for the system
 exports.User = User;

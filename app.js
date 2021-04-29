@@ -115,7 +115,7 @@ function startServer(){
 function stopServer(srv){
     srv.close();
 }
-
+//Temporary app code for the server
 //if we're being run directly from command line
 if( module  === require.main )
     startServer();
