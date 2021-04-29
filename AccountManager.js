@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const { Account } = require("./Account");
 
 class User{
@@ -44,18 +43,6 @@ class AccountManager{
     }
     setAvatar(email, newavatar){
         return this.accounts.get(email).avatar = newavatar;
-=======
-
-class AccountManager
-{
-    constructor()
-    {
-        this.users = new Map();
-    }
-    addAccount(email,password){
-        //Access main database . . .
-        
->>>>>>> EthanLowesBranch
     }
 }
 

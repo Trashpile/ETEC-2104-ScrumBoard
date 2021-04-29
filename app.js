@@ -22,17 +22,17 @@
 //app.listen(2021);
 //console.log("Listening on 2021");
 
-
+let MemeManager = require("./MemeManager");
 let express = require("express");
 let formidable = require("formidable");
 let formatDate = require("./FormatDate").formatDate;
 let upload_meme = require("./pub/uploadMeme/uploadMemeMain.js");
 let edit_hierarchy = require("./pub/editHierarchy/editHierarchyMain.js");
-let MM = MemeManager.getInstance("main.sql");
+let MM = MemeManager.MemeManager.getInstance("main.sql");
 
 let fs = require("fs");
 let AccountManager = require("./AccountManager");
-let MemeManager = require("./MemeManager");
+
 let DataBase = require("./database");
 const session = require("express-session");
 let conn = new sqlite3.Database("./priv/memedepository.sql");
