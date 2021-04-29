@@ -1,6 +1,17 @@
 let report_form = index.html;
 
-get_info()
+class report_form
 {
+    constructor(uID,reason,body)
+    {
+        this.sender_ID = uID;
+        this.reason = reason;
+        this.body = body;
+    }
+
     
+
+
+
+
 }
