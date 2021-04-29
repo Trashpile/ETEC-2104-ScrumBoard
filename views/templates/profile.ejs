@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<<<<<<< HEAD
 <head>
 <meta charset=utf8>
 <script src="bootstrap.bundle.min.js"></script>
@@ -110,4 +111,14 @@
 
 
 
+=======
+<head><meta charset=utf8></head><body>
+<%- include("header"); %>
+<% if( username === undefined ) {%>
+    You are not logged in.
+<% } else { %>
+    This is your profile page, <%= username %>
+<% } %>
+<%- include("footer"); %>
+>>>>>>> EthanLowesBranch
 </body></html>

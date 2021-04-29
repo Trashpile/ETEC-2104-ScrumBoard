@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset=utf8></head><body>
+<%- include("header"); %>
+Currently online:
+<% for(let i=0;i<users.length;++i) { %>
+    <div>
+        <%- users[i].status %> <%= users[i].name %>
+    </div>
+<% } %>
+<%- include("footer"); %>
+</body></html>

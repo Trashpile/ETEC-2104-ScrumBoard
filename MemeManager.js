@@ -1,6 +1,8 @@
 "use strict";
 
 let sqlite3 = require("sqlite3").verbose();
+//const { Database } = require("sqlite3");
+let DataBase = require("./database");
 
 const sortType = {
     ASCENDING: 0,   //oldest
@@ -178,6 +180,43 @@ class MemeManager {
             if(typeof callback == "function")
                 callback(rows);
             return;
+        });
+    }
+
+    //Will refactor soon...
+    //Returns a List in the callback of the top 5 memes in the database.
+    giveMeTheTopFiveMemesByLikes( callback ) {
+        //DataBase.Database.getInstance().addMeme("Mad cat");
+        DataBase.Database.getInstance().all( "select name, likes from memes order by likes desc", //Bulds a dictionary out of the memes
+        {},
+        (e,rows) => 
+        {
+            let L = [];
+            //returns only top 5 of the order likes memes, since it returns mid in DESC-ending order.
+            for(let i=0;i<5 && i < rows.length; ++i )
+            { //i++???
+                console.log("row",i,":",rows[i].name, " likes:", rows[i].likes);
+                L.push(rows[i].name + " likes: " + rows[i].likes);
+            }
+            //conn.close();
+            callback(L); //Sends a list of the top five memes, to app.js ideally...
+        });
+    }
+
+    getFavorites( callback ) {
+        DataBase.Database.getInstance().all("select * from favorites",
+        {},
+        (e,rows) =>
+        {
+            console.log(rows);
+            let L = [];
+            for(let i =0; i<rows.length; ++i)
+            {
+                console.log("row",i," userID:",rows[i].uID, " memeID:", rows[i].mID);
+                L.push(rows[i].mID + " " + rows[i].uID);
+            }
+            console.log("whats up dude");
+            callback(L);
         });
     }
 }

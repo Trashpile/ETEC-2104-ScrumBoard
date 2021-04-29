@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "name": "sprint1",
+=======
+  "name": "sprint2",
+>>>>>>> EthanLowesBranch
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -14,10 +18,28 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "formidable": "^1.2.2",
+<<<<<<< HEAD
     "jquery": "^3.6.0",
     "tough-cookie": "^4.0.0"
   },
   "devDependencies": {
     "mocha": "^8.3.2"
   }
+=======
+    "mocha": "^8.3.2",
+    "sqlite3": "^5.0.2"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Trashpile/ETEC-2104-ScrumBoard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Trashpile/ETEC-2104-ScrumBoard/issues"
+  },
+  "homepage": "https://github.com/Trashpile/ETEC-2104-ScrumBoard#readme"
+>>>>>>> EthanLowesBranch
 }
